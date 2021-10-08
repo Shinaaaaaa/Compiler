@@ -376,25 +376,25 @@ public class MxBaseListener implements MxListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterLambda(MxParser.LambdaContext ctx) { }
+	@Override public void enterLambdaexpression(MxParser.LambdaexpressionContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitLambda(MxParser.LambdaContext ctx) { }
+	@Override public void exitLambdaexpression(MxParser.LambdaexpressionContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterNew(MxParser.NewContext ctx) { }
+	@Override public void enterNewexpression(MxParser.NewexpressionContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitNew(MxParser.NewContext ctx) { }
+	@Override public void exitNewexpression(MxParser.NewexpressionContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *

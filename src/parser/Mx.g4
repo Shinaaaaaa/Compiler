@@ -1,6 +1,6 @@
 grammar Mx;
 
-program: (funcDef|classDef ';'|varDef ';')*;
+program: (funcDef|classDef ';'|varDef ';')* EOF;
 
 singelType: Int | Bool | String | Id;
 
@@ -46,8 +46,8 @@ statement
 
 expression: primary                                                         #atomExpr
           | This                                                            #thisExpr
-          | lambdaexpression                                                          #lambdaExpr
-          | newexpression                                                             #newEXpr
+          | lambdaexpression                                                #lambdaExpr
+          | newexpression                                                   #newEXpr
           | expression '[' expression ']'                                   #indexExpr
           | expression '(' expressionList? ')'                              #functionExpr
           | expression '.' expression                                       #pointExpr
@@ -71,8 +71,8 @@ expression: primary                                                         #ato
 lambdaexpression: '[&]' '('parameterList?')' '->' suite '(' expressionList? ')';
 
 newexpression: New singelType ('['expression']')+ ('['']')*
-   | New variableType ('('')')?
-   ;
+             | New Id ('('')')?
+             ;
 
 parameterList: variableType Id (',' variableType Id)*;
 

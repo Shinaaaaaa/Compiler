@@ -211,17 +211,17 @@ public interface MxVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitFunctionExpr(MxParser.FunctionExprContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link MxParser#lambda}.
+	 * Visit a parse tree produced by {@link MxParser#lambdaexpression}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitLambda(MxParser.LambdaContext ctx);
+	T visitLambdaexpression(MxParser.LambdaexpressionContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link MxParser#new}.
+	 * Visit a parse tree produced by {@link MxParser#newexpression}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitNew(MxParser.NewContext ctx);
+	T visitNewexpression(MxParser.NewexpressionContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link MxParser#parameterList}.
 	 * @param ctx the parse tree
