@@ -1,5 +1,5 @@
-// Generated from C:/Users/lenovo/IdeaProjects/Compiler/src/parser\Mx.g4 by ANTLR 4.9.1
-package parser;
+// Generated from C:/Users/lenovo/IdeaProjects/Compiler/src/Parser\Mx.g4 by ANTLR 4.9.1
+package Parser;
 import org.antlr.v4.runtime.tree.ParseTreeListener;
 
 /**
@@ -17,46 +17,6 @@ public interface MxListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitProgram(MxParser.ProgramContext ctx);
-	/**
-	 * Enter a parse tree produced by {@link MxParser#singelType}.
-	 * @param ctx the parse tree
-	 */
-	void enterSingelType(MxParser.SingelTypeContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link MxParser#singelType}.
-	 * @param ctx the parse tree
-	 */
-	void exitSingelType(MxParser.SingelTypeContext ctx);
-	/**
-	 * Enter a parse tree produced by {@link MxParser#arrayType}.
-	 * @param ctx the parse tree
-	 */
-	void enterArrayType(MxParser.ArrayTypeContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link MxParser#arrayType}.
-	 * @param ctx the parse tree
-	 */
-	void exitArrayType(MxParser.ArrayTypeContext ctx);
-	/**
-	 * Enter a parse tree produced by {@link MxParser#variableType}.
-	 * @param ctx the parse tree
-	 */
-	void enterVariableType(MxParser.VariableTypeContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link MxParser#variableType}.
-	 * @param ctx the parse tree
-	 */
-	void exitVariableType(MxParser.VariableTypeContext ctx);
-	/**
-	 * Enter a parse tree produced by {@link MxParser#returnType}.
-	 * @param ctx the parse tree
-	 */
-	void enterReturnType(MxParser.ReturnTypeContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link MxParser#returnType}.
-	 * @param ctx the parse tree
-	 */
-	void exitReturnType(MxParser.ReturnTypeContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link MxParser#varDef}.
 	 * @param ctx the parse tree
@@ -348,16 +308,6 @@ public interface MxListener extends ParseTreeListener {
 	 */
 	void exitFunctionExpr(MxParser.FunctionExprContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link MxParser#lambdaexpression}.
-	 * @param ctx the parse tree
-	 */
-	void enterLambdaexpression(MxParser.LambdaexpressionContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link MxParser#lambdaexpression}.
-	 * @param ctx the parse tree
-	 */
-	void exitLambdaexpression(MxParser.LambdaexpressionContext ctx);
-	/**
 	 * Enter a parse tree produced by {@link MxParser#newexpression}.
 	 * @param ctx the parse tree
 	 */
@@ -387,6 +337,46 @@ public interface MxListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitExpressionList(MxParser.ExpressionListContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link MxParser#singelType}.
+	 * @param ctx the parse tree
+	 */
+	void enterSingelType(MxParser.SingelTypeContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link MxParser#singelType}.
+	 * @param ctx the parse tree
+	 */
+	void exitSingelType(MxParser.SingelTypeContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link MxParser#arrayType}.
+	 * @param ctx the parse tree
+	 */
+	void enterArrayType(MxParser.ArrayTypeContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link MxParser#arrayType}.
+	 * @param ctx the parse tree
+	 */
+	void exitArrayType(MxParser.ArrayTypeContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link MxParser#variableType}.
+	 * @param ctx the parse tree
+	 */
+	void enterVariableType(MxParser.VariableTypeContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link MxParser#variableType}.
+	 * @param ctx the parse tree
+	 */
+	void exitVariableType(MxParser.VariableTypeContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link MxParser#returnType}.
+	 * @param ctx the parse tree
+	 */
+	void enterReturnType(MxParser.ReturnTypeContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link MxParser#returnType}.
+	 * @param ctx the parse tree
+	 */
+	void exitReturnType(MxParser.ReturnTypeContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link MxParser#primary}.
 	 * @param ctx the parse tree

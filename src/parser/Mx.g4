@@ -2,20 +2,6 @@ grammar Mx;
 
 program: (funcDef|classDef ';'|varDef ';')* EOF;
 
-singelType: Int | Bool | String | Id;
-
-arrayType: singelType '[' ']'
-         | arrayType '[' ']'
-         ;
-
-variableType: singelType
-            | arrayType
-            ;
-
-returnType: variableType
-           | Void
-           ;
-
 varDef: variableType Id ('=' expression)? (',' Id ('=' expression)?)*;
 
 funcDef: returnType Id '('parameterList?')' suite;
@@ -46,7 +32,7 @@ statement
 
 expression: primary                                                         #atomExpr
           | This                                                            #thisExpr
-          | lambdaexpression                                                #lambdaExpr
+          | '[&]' '('parameterList?')' '->' suite '(' expressionList? ')'   #lambdaExpr
           | newexpression                                                   #newEXpr
           | expression '[' expression ']'                                   #indexExpr
           | expression '(' expressionList? ')'                              #functionExpr
@@ -68,8 +54,6 @@ expression: primary                                                         #ato
           | <assoc=right> expression '=' expression                         #assignExpr
           ;
 
-lambdaexpression: '[&]' '('parameterList?')' '->' suite '(' expressionList? ')';
-
 newexpression: New singelType ('['expression']')+ ('['']')*
              | New Id ('('')')?
              ;
@@ -77,6 +61,20 @@ newexpression: New singelType ('['expression']')+ ('['']')*
 parameterList: variableType Id (',' variableType Id)*;
 
 expressionList: expression (',' expression)*;
+
+singelType: Int | Bool | String | Id;
+
+arrayType: singelType '[' ']'
+         | arrayType '[' ']'
+         ;
+
+variableType: singelType
+            | arrayType
+            ;
+
+returnType: variableType
+           | Void
+           ;
 
 primary: '(' expression ')'
        | Id
@@ -91,7 +89,6 @@ literal: IntConst
        ;
 
 //
-
 Int: 'int';
 Bool: 'bool';
 String: 'string';
@@ -110,6 +107,50 @@ New: 'new';
 Class: 'class';
 This: 'this';
 
+Dot : '.';
+LeftParen : '(';
+RightParen : ')';
+LeftBracket : '[';
+RightBracket : ']';
+LeftBrace : '{';
+RightBrace : '}';
+
+Less : '<';
+LessEqual : '<=';
+Greater : '>';
+GreaterEqual : '>=';
+LeftShift : '<<';
+RightShift : '>>';
+
+Plus : '+';
+SelfPlus : '++';
+Minus : '-';
+SelfMinus : '--';
+
+Mul : '*';
+Div : '/';
+Mod : '%';
+
+And : '&';
+Or : '|';
+AndAnd : '&&';
+OrOr : '||';
+Caret : '^';
+Not : '!';
+Tilde : '~';
+
+Question : '?';
+Colon : ':';
+Semicolon : ';';
+Comma : ',';
+
+Assign : '=';
+Equal : '==';
+NotEqual : '!=';
+
+BackSlash : '\\\\';
+DbQuotation : '\\"';
+
 Id: [a-zA-Z][a-zA-Z0-9_]*;
 
 IntConst: [1-9][0-9]* | '0';
@@ -127,4 +168,3 @@ LineComment
 
 WhiteSpace: [ \t]+ -> skip;
 NewLine: ('\r' '\n'? | '\n') -> skip;
-

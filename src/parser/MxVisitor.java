@@ -1,5 +1,5 @@
-// Generated from C:/Users/lenovo/IdeaProjects/Compiler/src/parser\Mx.g4 by ANTLR 4.9.1
-package parser;
+// Generated from C:/Users/lenovo/IdeaProjects/Compiler/src/Parser\Mx.g4 by ANTLR 4.9.1
+package Parser;
 import org.antlr.v4.runtime.tree.ParseTreeVisitor;
 
 /**
@@ -16,30 +16,6 @@ public interface MxVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitProgram(MxParser.ProgramContext ctx);
-	/**
-	 * Visit a parse tree produced by {@link MxParser#singelType}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitSingelType(MxParser.SingelTypeContext ctx);
-	/**
-	 * Visit a parse tree produced by {@link MxParser#arrayType}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitArrayType(MxParser.ArrayTypeContext ctx);
-	/**
-	 * Visit a parse tree produced by {@link MxParser#variableType}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitVariableType(MxParser.VariableTypeContext ctx);
-	/**
-	 * Visit a parse tree produced by {@link MxParser#returnType}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitReturnType(MxParser.ReturnTypeContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link MxParser#varDef}.
 	 * @param ctx the parse tree
@@ -211,12 +187,6 @@ public interface MxVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitFunctionExpr(MxParser.FunctionExprContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link MxParser#lambdaexpression}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitLambdaexpression(MxParser.LambdaexpressionContext ctx);
-	/**
 	 * Visit a parse tree produced by {@link MxParser#newexpression}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
@@ -234,6 +204,30 @@ public interface MxVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitExpressionList(MxParser.ExpressionListContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link MxParser#singelType}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitSingelType(MxParser.SingelTypeContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link MxParser#arrayType}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitArrayType(MxParser.ArrayTypeContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link MxParser#variableType}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitVariableType(MxParser.VariableTypeContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link MxParser#returnType}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitReturnType(MxParser.ReturnTypeContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link MxParser#primary}.
 	 * @param ctx the parse tree
