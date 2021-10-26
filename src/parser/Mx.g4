@@ -18,11 +18,11 @@ suite: '{' statement* '}';
 
 statement
          : suite                                                                #blockStmt
-         | varDef ';'                                                           #vardefStmt
-         | classDef ';'                                                         #classdefStmt
+         | varDef ';'                                                           #varDefStmt
+         | classDef ';'                                                         #classDefStmt
          | If '(' expression ')' statement (Else statement)?                    #conditionStmt
-         | While '(' expression ')' statement                                   #loopStmt
-         | For '(' expression? ';' expression? ';' expression? ')' statement    #loopStmt
+         | While '(' expression ')' statement                                   #whileLoopStmt
+         | For '(' expression? ';' expression? ';' expression? ')' statement    #forLoopStmt
          | Return expression? ';'                                               #returnStmt
          | Break ';'                                                            #breakStmt
          | Continue ';'                                                         #continueStmt
@@ -40,7 +40,7 @@ expression: primary                                                         #ato
           | <assoc=right> op=('!'|'~') expression                           #unaryExpr
           | <assoc=right> op=('++'|'--') expression                         #unaryExpr
           | <assoc=right> op = ('+' | '-') expression                       #unaryExpr
-          | <assoc=right> expression op=('++'|'--')                         #unaryExpr
+          | expression op=('++'|'--')                                       #unaryExpr
           | expression op = ('*' | '/' | '%') expression                    #binaryExpr
           | expression op = ('+' | '-') expression                          #binaryExpr
           | expression op = ('<<' | '>>') expression                        #binaryExpr
@@ -54,7 +54,7 @@ expression: primary                                                         #ato
           | <assoc=right> expression '=' expression                         #assignExpr
           ;
 
-newexpression: New singelType ('['expression']')+ ('['']')*
+newexpression: New singleType ('['expression']')+ ('['']')*
              | New Id ('('')')?
              ;
 
@@ -62,13 +62,13 @@ parameterList: variableType Id (',' variableType Id)*;
 
 expressionList: expression (',' expression)*;
 
-singelType: Int | Bool | String | Id;
+singleType: Int | Bool | String | Id;
 
-arrayType: singelType '[' ']'
+arrayType: singleType '[' ']'
          | arrayType '[' ']'
          ;
 
-variableType: singelType
+variableType: singleType
             | arrayType
             ;
 

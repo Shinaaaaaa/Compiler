@@ -80,29 +80,29 @@ public interface MxListener extends ParseTreeListener {
 	 */
 	void exitBlockStmt(MxParser.BlockStmtContext ctx);
 	/**
-	 * Enter a parse tree produced by the {@code vardefStmt}
+	 * Enter a parse tree produced by the {@code varDefStmt}
 	 * labeled alternative in {@link MxParser#statement}.
 	 * @param ctx the parse tree
 	 */
-	void enterVardefStmt(MxParser.VardefStmtContext ctx);
+	void enterVarDefStmt(MxParser.VarDefStmtContext ctx);
 	/**
-	 * Exit a parse tree produced by the {@code vardefStmt}
+	 * Exit a parse tree produced by the {@code varDefStmt}
 	 * labeled alternative in {@link MxParser#statement}.
 	 * @param ctx the parse tree
 	 */
-	void exitVardefStmt(MxParser.VardefStmtContext ctx);
+	void exitVarDefStmt(MxParser.VarDefStmtContext ctx);
 	/**
-	 * Enter a parse tree produced by the {@code classdefStmt}
+	 * Enter a parse tree produced by the {@code classDefStmt}
 	 * labeled alternative in {@link MxParser#statement}.
 	 * @param ctx the parse tree
 	 */
-	void enterClassdefStmt(MxParser.ClassdefStmtContext ctx);
+	void enterClassDefStmt(MxParser.ClassDefStmtContext ctx);
 	/**
-	 * Exit a parse tree produced by the {@code classdefStmt}
+	 * Exit a parse tree produced by the {@code classDefStmt}
 	 * labeled alternative in {@link MxParser#statement}.
 	 * @param ctx the parse tree
 	 */
-	void exitClassdefStmt(MxParser.ClassdefStmtContext ctx);
+	void exitClassDefStmt(MxParser.ClassDefStmtContext ctx);
 	/**
 	 * Enter a parse tree produced by the {@code conditionStmt}
 	 * labeled alternative in {@link MxParser#statement}.
@@ -116,17 +116,29 @@ public interface MxListener extends ParseTreeListener {
 	 */
 	void exitConditionStmt(MxParser.ConditionStmtContext ctx);
 	/**
-	 * Enter a parse tree produced by the {@code loopStmt}
+	 * Enter a parse tree produced by the {@code whileLoopStmt}
 	 * labeled alternative in {@link MxParser#statement}.
 	 * @param ctx the parse tree
 	 */
-	void enterLoopStmt(MxParser.LoopStmtContext ctx);
+	void enterWhileLoopStmt(MxParser.WhileLoopStmtContext ctx);
 	/**
-	 * Exit a parse tree produced by the {@code loopStmt}
+	 * Exit a parse tree produced by the {@code whileLoopStmt}
 	 * labeled alternative in {@link MxParser#statement}.
 	 * @param ctx the parse tree
 	 */
-	void exitLoopStmt(MxParser.LoopStmtContext ctx);
+	void exitWhileLoopStmt(MxParser.WhileLoopStmtContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code forLoopStmt}
+	 * labeled alternative in {@link MxParser#statement}.
+	 * @param ctx the parse tree
+	 */
+	void enterForLoopStmt(MxParser.ForLoopStmtContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code forLoopStmt}
+	 * labeled alternative in {@link MxParser#statement}.
+	 * @param ctx the parse tree
+	 */
+	void exitForLoopStmt(MxParser.ForLoopStmtContext ctx);
 	/**
 	 * Enter a parse tree produced by the {@code returnStmt}
 	 * labeled alternative in {@link MxParser#statement}.
@@ -338,15 +350,15 @@ public interface MxListener extends ParseTreeListener {
 	 */
 	void exitExpressionList(MxParser.ExpressionListContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link MxParser#singelType}.
+	 * Enter a parse tree produced by {@link MxParser#singleType}.
 	 * @param ctx the parse tree
 	 */
-	void enterSingelType(MxParser.SingelTypeContext ctx);
+	void enterSingleType(MxParser.SingleTypeContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link MxParser#singelType}.
+	 * Exit a parse tree produced by {@link MxParser#singleType}.
 	 * @param ctx the parse tree
 	 */
-	void exitSingelType(MxParser.SingelTypeContext ctx);
+	void exitSingleType(MxParser.SingleTypeContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link MxParser#arrayType}.
 	 * @param ctx the parse tree

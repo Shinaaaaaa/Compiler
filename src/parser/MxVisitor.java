@@ -54,19 +54,19 @@ public interface MxVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitBlockStmt(MxParser.BlockStmtContext ctx);
 	/**
-	 * Visit a parse tree produced by the {@code vardefStmt}
+	 * Visit a parse tree produced by the {@code varDefStmt}
 	 * labeled alternative in {@link MxParser#statement}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitVardefStmt(MxParser.VardefStmtContext ctx);
+	T visitVarDefStmt(MxParser.VarDefStmtContext ctx);
 	/**
-	 * Visit a parse tree produced by the {@code classdefStmt}
+	 * Visit a parse tree produced by the {@code classDefStmt}
 	 * labeled alternative in {@link MxParser#statement}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitClassdefStmt(MxParser.ClassdefStmtContext ctx);
+	T visitClassDefStmt(MxParser.ClassDefStmtContext ctx);
 	/**
 	 * Visit a parse tree produced by the {@code conditionStmt}
 	 * labeled alternative in {@link MxParser#statement}.
@@ -75,12 +75,19 @@ public interface MxVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitConditionStmt(MxParser.ConditionStmtContext ctx);
 	/**
-	 * Visit a parse tree produced by the {@code loopStmt}
+	 * Visit a parse tree produced by the {@code whileLoopStmt}
 	 * labeled alternative in {@link MxParser#statement}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitLoopStmt(MxParser.LoopStmtContext ctx);
+	T visitWhileLoopStmt(MxParser.WhileLoopStmtContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code forLoopStmt}
+	 * labeled alternative in {@link MxParser#statement}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitForLoopStmt(MxParser.ForLoopStmtContext ctx);
 	/**
 	 * Visit a parse tree produced by the {@code returnStmt}
 	 * labeled alternative in {@link MxParser#statement}.
@@ -205,11 +212,11 @@ public interface MxVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitExpressionList(MxParser.ExpressionListContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link MxParser#singelType}.
+	 * Visit a parse tree produced by {@link MxParser#singleType}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitSingelType(MxParser.SingelTypeContext ctx);
+	T visitSingleType(MxParser.SingleTypeContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link MxParser#arrayType}.
 	 * @param ctx the parse tree

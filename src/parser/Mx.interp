@@ -140,7 +140,7 @@ expression
 newexpression
 parameterList
 expressionList
-singelType
+singleType
 arrayType
 variableType
 returnType

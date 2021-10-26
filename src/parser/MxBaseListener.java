@@ -100,25 +100,25 @@ public class MxBaseListener implements MxListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterVardefStmt(MxParser.VardefStmtContext ctx) { }
+	@Override public void enterVarDefStmt(MxParser.VarDefStmtContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitVardefStmt(MxParser.VardefStmtContext ctx) { }
+	@Override public void exitVarDefStmt(MxParser.VarDefStmtContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterClassdefStmt(MxParser.ClassdefStmtContext ctx) { }
+	@Override public void enterClassDefStmt(MxParser.ClassDefStmtContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitClassdefStmt(MxParser.ClassdefStmtContext ctx) { }
+	@Override public void exitClassDefStmt(MxParser.ClassDefStmtContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -136,13 +136,25 @@ public class MxBaseListener implements MxListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterLoopStmt(MxParser.LoopStmtContext ctx) { }
+	@Override public void enterWhileLoopStmt(MxParser.WhileLoopStmtContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitLoopStmt(MxParser.LoopStmtContext ctx) { }
+	@Override public void exitWhileLoopStmt(MxParser.WhileLoopStmtContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterForLoopStmt(MxParser.ForLoopStmtContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitForLoopStmt(MxParser.ForLoopStmtContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -364,13 +376,13 @@ public class MxBaseListener implements MxListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterSingelType(MxParser.SingelTypeContext ctx) { }
+	@Override public void enterSingleType(MxParser.SingleTypeContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitSingelType(MxParser.SingelTypeContext ctx) { }
+	@Override public void exitSingleType(MxParser.SingleTypeContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
