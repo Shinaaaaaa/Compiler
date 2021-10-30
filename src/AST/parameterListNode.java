@@ -4,9 +4,9 @@ import Util.position;
 import java.util.HashMap;
 
 public class parameterListNode extends ASTNode{
-    public HashMap<variableTypeNode , String> parameterList = new HashMap<>();
+    public HashMap<String , variableTypeNode> parameterList = new HashMap<>();
 
-    parameterListNode(position pos){
+    public parameterListNode(position pos){
         super(pos);
     }
 

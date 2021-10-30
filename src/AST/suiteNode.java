@@ -7,7 +7,7 @@ import java.util.ArrayList;
 public class suiteNode extends ASTNode{
     public ArrayList<StmtNode> stmts = new ArrayList<>();
 
-    suiteNode(position pos){
+    public suiteNode(position pos){
         super(pos);
     }
 

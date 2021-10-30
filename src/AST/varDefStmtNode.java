@@ -1,13 +1,15 @@
 package AST;
 
 import Util.position;
+import java.util.HashMap;
 
-public class varDefStmtNode extends StmtNode{
-    public varDefNode varDef;
+public class varDefStmtNode extends subprogramNode{
+    public variableTypeNode varType;
+    public HashMap<String , ExprNode> varList = new HashMap<>();
 
-    varDefStmtNode(varDefNode varDef , position pos){
+    public varDefStmtNode(variableTypeNode varType, position pos){
         super(pos);
-        this.varDef = varDef;
+        this.varType = varType;
     }
 
     @Override

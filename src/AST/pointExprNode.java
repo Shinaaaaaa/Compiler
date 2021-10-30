@@ -6,7 +6,7 @@ public class pointExprNode extends ExprNode{
     public ExprNode lhs;
     public ExprNode rhs;
 
-    pointExprNode(ExprNode lhs , ExprNode rhs , position pos){
+    public pointExprNode(ExprNode lhs , ExprNode rhs , position pos){
         super(pos);
         this.lhs = lhs;
         this.rhs = rhs;

@@ -5,7 +5,7 @@ import Util.position;
 public class varExprNode extends ExprNode{
     public String varName;
 
-    varExprNode(String varName , position pos){
+    public varExprNode(String varName , position pos){
         super(pos);
         this.varName = varName;
     }

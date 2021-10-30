@@ -4,13 +4,13 @@ import Util.position;
 
 public class conditionStmtNode extends StmtNode{
     public ExprNode condition;
-    public StmtNode thenStmt , ifStmt;
+    public StmtNode thenStmt , elseStmt;
 
-    conditionStmtNode(ExprNode condition , StmtNode thenStmt , StmtNode ifStmt , position pos){
+    public conditionStmtNode(ExprNode condition , StmtNode thenStmt , StmtNode elseStmt , position pos){
         super(pos);
         this.condition = condition;
         this.thenStmt = thenStmt;
-        this.ifStmt = ifStmt;
+        this.elseStmt = elseStmt;
     }
 
     @Override

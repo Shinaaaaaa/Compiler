@@ -4,7 +4,7 @@ import Util.position;
 
 public class intConstNode extends ASTNode{
     public int value;
-    intConstNode(int value , position pos){
+    public intConstNode(int value , position pos){
         super(pos);
         this.value = value;
     }

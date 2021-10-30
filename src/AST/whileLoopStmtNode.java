@@ -6,7 +6,7 @@ public class whileLoopStmtNode extends StmtNode{
     public ExprNode condition;
     public StmtNode loopStmt;
 
-    whileLoopStmtNode(ExprNode condition , StmtNode loopStmt , position pos){
+    public whileLoopStmtNode(ExprNode condition , StmtNode loopStmt , position pos){
         super(pos);
         this.condition = condition;
         this.loopStmt = loopStmt;

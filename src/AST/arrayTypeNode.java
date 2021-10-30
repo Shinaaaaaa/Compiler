@@ -1,15 +1,23 @@
 package AST;
 
+import Util.Type;
 import Util.position;
 
 public class arrayTypeNode extends variableTypeNode{
-    public String typeName;
+    public variableTypeNode vartype;
     public int dimension;
 
-    arrayTypeNode(String typeName , int dimension , position pos){
+    public arrayTypeNode(variableTypeNode vartype , position pos){
         super(pos);
-        this.typeName = typeName;
-        this.dimension = dimension;
+        if (vartype instanceof arrayTypeNode) {
+            this.vartype = ((arrayTypeNode) vartype).vartype;
+            this.dimension = ((arrayTypeNode) vartype).dimension + 1;
+            super.type = new Type(vartype.type.varTypeTag , this.dimension);
+        } else {
+            this.vartype = vartype;
+            this.dimension = 1;
+            super.type = new Type(vartype.type.varTypeTag , 1);
+        }
     }
 
     @Override

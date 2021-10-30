@@ -2,13 +2,13 @@ package AST;
 
 import Util.position;
 
-public class funcDefNode extends ASTNode{
+public class funcDefNode extends subprogramNode{
     public returnTypeNode returnType;
     public String funcName;
     public parameterListNode parameterList;
     public suiteNode suite;
 
-    funcDefNode(returnTypeNode returnType , String funcName , parameterListNode parameterList
+    public funcDefNode(returnTypeNode returnType , String funcName , parameterListNode parameterList
                , suiteNode suite , position pos){
         super(pos);
         this.returnType = returnType;

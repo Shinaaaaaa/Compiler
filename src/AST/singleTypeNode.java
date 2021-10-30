@@ -1,13 +1,12 @@
 package AST;
 
+import Util.Type;
 import Util.position;
 
 public class singleTypeNode extends variableTypeNode{
-    public String typeName;
-
-    singleTypeNode(String typeName , position pos){
+    public singleTypeNode(Type type , position pos){
         super(pos);
-        this.typeName = typeName;
+        super.type = type;
     }
 
     @Override

@@ -5,7 +5,7 @@ import Util.position;
 public class returnStmtNode extends StmtNode{
     public ExprNode value;
 
-    returnStmtNode(ExprNode value , position pos){
+    public returnStmtNode(ExprNode value , position pos){
         super(pos);
         this.value = value;
     }

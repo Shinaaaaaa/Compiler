@@ -2,12 +2,17 @@ package AST;
 
 import Util.position;
 
-public class classDefStmtNode extends StmtNode{
-    public classDefNode classDef;
+import java.util.ArrayList;
 
-    classDefStmtNode(classDefNode classDef , position pos){
+public class classDefStmtNode extends subprogramNode{
+    public String className;
+    public ArrayList<varDefStmtNode> varDefList = new ArrayList<>();
+    public ArrayList<funcDefNode> funcDefList = new ArrayList<>();
+    public ArrayList<constructfuncDefNode> constructfuncDefList = new ArrayList<>();
+
+    public classDefStmtNode(String className , position pos){
         super(pos);
-        this.classDef = classDef;
+        this.className = className;
     }
 
     @Override

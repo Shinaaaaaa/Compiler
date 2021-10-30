@@ -2,15 +2,14 @@ package AST;
 
 import Util.position;
 
-public class unaryExprNode extends ExprNode{
+public class suffixSelfExprNode extends ExprNode{
     public ExprNode expr;
-    public enum unaryOpType{
-        not , tilde ,
-        plus , minus
+    public enum suffixSelfOpType{
+        selfPlus , selfMinus
     }
-    public unaryOpType opcode;
+    public suffixSelfOpType opcode;
 
-    public unaryExprNode(ExprNode expr , unaryOpType opcode , position pos){
+    public suffixSelfExprNode(ExprNode expr , suffixSelfOpType opcode , position pos){
         super(pos);
         this.expr = expr;
         this.opcode = opcode;

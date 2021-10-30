@@ -3,7 +3,7 @@ package AST;
 import Util.position;
 
 public class nullConstNode extends ASTNode{
-    nullConstNode(position pos){
+    public nullConstNode(position pos){
         super(pos);
     }
 

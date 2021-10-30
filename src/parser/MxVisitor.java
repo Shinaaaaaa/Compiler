@@ -17,6 +17,12 @@ public interface MxVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitProgram(MxParser.ProgramContext ctx);
 	/**
+	 * Visit a parse tree produced by {@link MxParser#subprogram}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitSubprogram(MxParser.SubprogramContext ctx);
+	/**
 	 * Visit a parse tree produced by {@link MxParser#varDef}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
@@ -124,6 +130,13 @@ public interface MxVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitEmptyStmt(MxParser.EmptyStmtContext ctx);
 	/**
+	 * Visit a parse tree produced by the {@code newExpr}
+	 * labeled alternative in {@link MxParser#expression}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitNewExpr(MxParser.NewExprContext ctx);
+	/**
 	 * Visit a parse tree produced by the {@code indexExpr}
 	 * labeled alternative in {@link MxParser#expression}.
 	 * @param ctx the parse tree
@@ -137,13 +150,6 @@ public interface MxVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitThisExpr(MxParser.ThisExprContext ctx);
-	/**
-	 * Visit a parse tree produced by the {@code newEXpr}
-	 * labeled alternative in {@link MxParser#expression}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitNewEXpr(MxParser.NewEXprContext ctx);
 	/**
 	 * Visit a parse tree produced by the {@code unaryExpr}
 	 * labeled alternative in {@link MxParser#expression}.
@@ -166,12 +172,26 @@ public interface MxVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitAtomExpr(MxParser.AtomExprContext ctx);
 	/**
+	 * Visit a parse tree produced by the {@code prefixSelfExpr}
+	 * labeled alternative in {@link MxParser#expression}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitPrefixSelfExpr(MxParser.PrefixSelfExprContext ctx);
+	/**
 	 * Visit a parse tree produced by the {@code binaryExpr}
 	 * labeled alternative in {@link MxParser#expression}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
 	T visitBinaryExpr(MxParser.BinaryExprContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code suffixSelfExpr}
+	 * labeled alternative in {@link MxParser#expression}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitSuffixSelfExpr(MxParser.SuffixSelfExprContext ctx);
 	/**
 	 * Visit a parse tree produced by the {@code assignExpr}
 	 * labeled alternative in {@link MxParser#expression}.
@@ -194,11 +214,33 @@ public interface MxVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitFunctionExpr(MxParser.FunctionExprContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link MxParser#newexpression}.
+	 * Visit a parse tree produced by the {@code newArray}
+	 * labeled alternative in {@link MxParser#newexpression}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitNewexpression(MxParser.NewexpressionContext ctx);
+	T visitNewArray(MxParser.NewArrayContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code newClass}
+	 * labeled alternative in {@link MxParser#newexpression}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitNewClass(MxParser.NewClassContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code wrongNew_1}
+	 * labeled alternative in {@link MxParser#newexpression}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitWrongNew_1(MxParser.WrongNew_1Context ctx);
+	/**
+	 * Visit a parse tree produced by the {@code wrongNew_2}
+	 * labeled alternative in {@link MxParser#newexpression}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitWrongNew_2(MxParser.WrongNew_2Context ctx);
 	/**
 	 * Visit a parse tree produced by {@link MxParser#parameterList}.
 	 * @param ctx the parse tree

@@ -5,7 +5,7 @@ import Util.position;
 public class stringConstNode extends ASTNode{
     public String value;
 
-    stringConstNode(String value , position pos){
+    public stringConstNode(String value , position pos){
         super(pos);
         this.value = value;
     }

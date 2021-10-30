@@ -4,7 +4,7 @@ import Util.position;
 
 public class booleanConstNode extends ASTNode{
     public boolean value;
-    booleanConstNode(boolean value , position pos){
+    public booleanConstNode(boolean value , position pos){
         super(pos);
         this.value = value;
     }

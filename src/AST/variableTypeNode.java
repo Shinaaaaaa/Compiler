@@ -1,9 +1,11 @@
 package AST;
 
 import Util.position;
+import Util.Type;
 
 public abstract class variableTypeNode extends returnTypeNode{
-    variableTypeNode(position pos){
+    public Type type;
+    public variableTypeNode(position pos){
         super(pos);
     }
 }

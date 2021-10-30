@@ -3,7 +3,7 @@ package AST;
 import Util.position;
 
 public class voidTypeNode extends returnTypeNode{
-    voidTypeNode(position pos){
+    public voidTypeNode(position pos){
         super(pos);
     }
 

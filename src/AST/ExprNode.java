@@ -6,7 +6,7 @@ import Util.Type;
 public abstract class ExprNode extends ASTNode{
     public Type type;
 
-    ExprNode(position pos){
+    public ExprNode(position pos){
         super(pos);
     }
 }

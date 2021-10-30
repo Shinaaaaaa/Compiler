@@ -7,7 +7,7 @@ import java.util.ArrayList;
 public class expressionListNode extends ASTNode{
     public ArrayList<ExprNode> exprList = new ArrayList<>();
 
-    expressionListNode(position pos){
+    public expressionListNode(position pos){
         super(pos);
     }
 

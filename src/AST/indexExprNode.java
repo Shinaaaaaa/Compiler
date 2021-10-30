@@ -6,7 +6,7 @@ public class indexExprNode extends ExprNode{
     public ExprNode array;
     public ExprNode index;
 
-    indexExprNode(ExprNode array , ExprNode index , position pos){
+    public indexExprNode(ExprNode array , ExprNode index , position pos){
         super(pos);
         this.array = array;
         this.index = index;

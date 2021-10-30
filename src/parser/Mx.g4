@@ -1,6 +1,8 @@
 grammar Mx;
 
-program: (funcDef|classDef ';'|varDef ';')* EOF;
+program: (subprogram)* EOF;
+
+subprogram:funcDef | classDef ';' | varDef ';';
 
 varDef: variableType Id ('=' expression)? (',' Id ('=' expression)?)*;
 
@@ -12,6 +14,7 @@ classDef
         : Class Id '{'
         (varDef';'|funcDef|constructfuncDef)*
         '}'
+
         ;
 
 suite: '{' statement* '}';
@@ -33,14 +36,14 @@ statement
 expression: primary                                                         #atomExpr
           | This                                                            #thisExpr
           | '[&]' '('parameterList?')' '->' suite '(' expressionList? ')'   #lambdaExpr
-          | newexpression                                                   #newEXpr
+          | newexpression                                                   #newExpr
           | expression '[' expression ']'                                   #indexExpr
           | expression '(' expressionList? ')'                              #functionExpr
           | expression '.' expression                                       #pointExpr
           | <assoc=right> op=('!'|'~') expression                           #unaryExpr
-          | <assoc=right> op=('++'|'--') expression                         #unaryExpr
           | <assoc=right> op = ('+' | '-') expression                       #unaryExpr
-          | expression op=('++'|'--')                                       #unaryExpr
+          | <assoc=right> op=('++'|'--') expression                         #prefixSelfExpr
+          | expression op=('++'|'--')                                       #suffixSelfExpr
           | expression op = ('*' | '/' | '%') expression                    #binaryExpr
           | expression op = ('+' | '-') expression                          #binaryExpr
           | expression op = ('<<' | '>>') expression                        #binaryExpr
@@ -54,8 +57,10 @@ expression: primary                                                         #ato
           | <assoc=right> expression '=' expression                         #assignExpr
           ;
 
-newexpression: New singleType ('['expression']')+ ('['']')*
-             | New Id ('('')')?
+newexpression: New singleType ('['expression']')+ ('['']')*                      #newArray
+             | New Id ('('')')?                                                  #newClass
+             | New singleType ('['expression']')+ ('['']')+ ('['expression']')+  #wrongNew_1
+             | New singleType ('['']')+ ('['expression']')*                      #wrongNew_2
              ;
 
 parameterList: variableType Id (',' variableType Id)*;
