@@ -6,6 +6,7 @@ import java.util.HashMap;
 
 public class globalScope extends Scope {
     public String name;
+    public boolean classTag = false;
     private HashMap<String , globalScope> classList = new HashMap<>();
     private HashMap<String , Scope> funcList = new HashMap<>();
     private HashMap<String , Type> funcTypeList = new HashMap<>();

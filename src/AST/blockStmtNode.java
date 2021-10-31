@@ -2,12 +2,12 @@ package AST;
 
 import Util.position;
 
-public class stringConstNode extends ExprNode{
-    public String value;
+public class blockStmtNode extends StmtNode{
+    public suiteNode suite;
 
-    public stringConstNode(String value , position pos){
+    public blockStmtNode(suiteNode suite, position pos){
         super(pos);
-        this.value = value;
+        this.suite = suite;
     }
 
     @Override

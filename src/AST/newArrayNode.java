@@ -4,7 +4,7 @@ import Util.position;
 
 import java.util.ArrayList;
 
-public class newArrayNode extends ASTNode{
+public class newArrayNode extends ExprNode{
     public singleTypeNode type;
     public int dimension;
     public ArrayList<ExprNode> dimExpr = new ArrayList<>();

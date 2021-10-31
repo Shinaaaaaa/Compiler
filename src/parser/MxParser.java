@@ -1591,11 +1591,11 @@ public class MxParser extends Parser {
 						_localctx = new PointExprContext(new ExpressionContext(_parentctx, _parentState));
 						pushNewRecursionContext(_localctx, _startState, RULE_expression);
 						setState(186);
-						if (!(precpred(_ctx, 16))) throw new FailedPredicateException(this, "precpred(_ctx, 16)");
+						if (!(precpred(_ctx, 18))) throw new FailedPredicateException(this, "precpred(_ctx, 18)");
 						setState(187);
 						match(Dot);
 						setState(188);
-						expression(17);
+						expression(19);
 						}
 						break;
 					case 2:
@@ -1780,7 +1780,7 @@ public class MxParser extends Parser {
 						_localctx = new IndexExprContext(new ExpressionContext(_parentctx, _parentState));
 						pushNewRecursionContext(_localctx, _startState, RULE_expression);
 						setState(222);
-						if (!(precpred(_ctx, 18))) throw new FailedPredicateException(this, "precpred(_ctx, 18)");
+						if (!(precpred(_ctx, 17))) throw new FailedPredicateException(this, "precpred(_ctx, 17)");
 						setState(223);
 						match(LeftBracket);
 						setState(224);
@@ -1794,7 +1794,7 @@ public class MxParser extends Parser {
 						_localctx = new FunctionExprContext(new ExpressionContext(_parentctx, _parentState));
 						pushNewRecursionContext(_localctx, _startState, RULE_expression);
 						setState(227);
-						if (!(precpred(_ctx, 17))) throw new FailedPredicateException(this, "precpred(_ctx, 17)");
+						if (!(precpred(_ctx, 16))) throw new FailedPredicateException(this, "precpred(_ctx, 16)");
 						setState(228);
 						match(LeftParen);
 						setState(230);
@@ -2768,7 +2768,7 @@ public class MxParser extends Parser {
 	private boolean expression_sempred(ExpressionContext _localctx, int predIndex) {
 		switch (predIndex) {
 		case 0:
-			return precpred(_ctx, 16);
+			return precpred(_ctx, 18);
 		case 1:
 			return precpred(_ctx, 11);
 		case 2:
@@ -2792,9 +2792,9 @@ public class MxParser extends Parser {
 		case 11:
 			return precpred(_ctx, 1);
 		case 12:
-			return precpred(_ctx, 18);
-		case 13:
 			return precpred(_ctx, 17);
+		case 13:
+			return precpred(_ctx, 16);
 		case 14:
 			return precpred(_ctx, 12);
 		}
@@ -2881,8 +2881,8 @@ public class MxParser extends Parser {
 		"\t\3\2\2\u00b7\u00bb\5\22\n\20\u00b8\u00b9\t\4\2\2\u00b9\u00bb\5\22\n"+
 		"\17\u00ba\u00a2\3\2\2\2\u00ba\u00a4\3\2\2\2\u00ba\u00a5\3\2\2\2\u00ba"+
 		"\u00b3\3\2\2\2\u00ba\u00b4\3\2\2\2\u00ba\u00b6\3\2\2\2\u00ba\u00b8\3\2"+
-		"\2\2\u00bb\u00ef\3\2\2\2\u00bc\u00bd\f\22\2\2\u00bd\u00be\7\26\2\2\u00be"+
-		"\u00ee\5\22\n\23\u00bf\u00c0\f\r\2\2\u00c0\u00c1\t\5\2\2\u00c1\u00ee\5"+
+		"\2\2\u00bb\u00ef\3\2\2\2\u00bc\u00bd\f\24\2\2\u00bd\u00be\7\26\2\2\u00be"+
+		"\u00ee\5\22\n\25\u00bf\u00c0\f\r\2\2\u00c0\u00c1\t\5\2\2\u00c1\u00ee\5"+
 		"\22\n\16\u00c2\u00c3\f\f\2\2\u00c3\u00c4\t\3\2\2\u00c4\u00ee\5\22\n\r"+
 		"\u00c5\u00c6\f\13\2\2\u00c6\u00c7\t\6\2\2\u00c7\u00ee\5\22\n\f\u00c8\u00c9"+
 		"\f\n\2\2\u00c9\u00ca\t\7\2\2\u00ca\u00ee\5\22\n\13\u00cb\u00cc\f\t\2\2"+
@@ -2891,9 +2891,9 @@ public class MxParser extends Parser {
 		"\u00ee\5\22\n\b\u00d4\u00d5\f\6\2\2\u00d5\u00d6\7+\2\2\u00d6\u00ee\5\22"+
 		"\n\7\u00d7\u00d8\f\5\2\2\u00d8\u00d9\7,\2\2\u00d9\u00ee\5\22\n\6\u00da"+
 		"\u00db\f\4\2\2\u00db\u00dc\7-\2\2\u00dc\u00ee\5\22\n\5\u00dd\u00de\f\3"+
-		"\2\2\u00de\u00df\7\65\2\2\u00df\u00ee\5\22\n\3\u00e0\u00e1\f\24\2\2\u00e1"+
+		"\2\2\u00de\u00df\7\65\2\2\u00df\u00ee\5\22\n\3\u00e0\u00e1\f\23\2\2\u00e1"+
 		"\u00e2\7\31\2\2\u00e2\u00e3\5\22\n\2\u00e3\u00e4\7\32\2\2\u00e4\u00ee"+
-		"\3\2\2\2\u00e5\u00e6\f\23\2\2\u00e6\u00e8\7\27\2\2\u00e7\u00e9\5\30\r"+
+		"\3\2\2\2\u00e5\u00e6\f\22\2\2\u00e6\u00e8\7\27\2\2\u00e7\u00e9\5\30\r"+
 		"\2\u00e8\u00e7\3\2\2\2\u00e8\u00e9\3\2\2\2\u00e9\u00ea\3\2\2\2\u00ea\u00ee"+
 		"\7\30\2\2\u00eb\u00ec\f\16\2\2\u00ec\u00ee\t\4\2\2\u00ed\u00bc\3\2\2\2"+
 		"\u00ed\u00bf\3\2\2\2\u00ed\u00c2\3\2\2\2\u00ed\u00c5\3\2\2\2\u00ed\u00c8"+

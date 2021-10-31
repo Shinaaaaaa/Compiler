@@ -7,6 +7,14 @@ import java.util.HashMap;
 public class Scope {
     private HashMap<String , Type> members;
     private Scope parentScope;
+    public boolean inLoop = false;
+
+//    public Scope(HashMap<String , Type> members , Scope parentScope , boolean inLoop) {
+//        this.members = new HashMap<>();
+//        members.keySet().forEach(kd -> this.members.put(kd , members.get(kd)));
+//        this.parentScope = parentScope;
+//        this.inLoop = inLoop;
+//    }
 
     public Scope(Scope parentScope) {
         members = new HashMap<>();
@@ -34,5 +42,11 @@ public class Scope {
         if (members.containsKey(name)) return members.get(name);
         else if (parentScope != null && lookUpon) return parentScope.getType(name , true);
         else return null;
+    }
+
+    public Boolean ifInLoop(){
+        if (inLoop) return true;
+        if (parentScope != null) return parentScope.ifInLoop();
+        else return false;
     }
 }

@@ -62,11 +62,15 @@ public class SymbolCollector implements ASTVisitor {
         gScope.addFunc("toString" , funcScope , funcType , p);
 
         globalScope newArrayScope = new globalScope(gScope , "Array");
+        gScope.addClass("Array" , newArrayScope , p);
+
         funcScope = new Scope(gScope);
         funcType = new Type("size" , new Type(Type.var_type.Int , 0) , null);
         newArrayScope.addFunc("size" , funcScope , funcType , p);
 
         globalScope newStringScope = new globalScope(gScope , "String");
+        gScope.addClass("String" , newStringScope , p);
+
         funcScope = new Scope(gScope);
         funcType = new Type("length" , new Type(Type.var_type.Int , 0) , null);
         newStringScope.addFunc("length" , funcScope , funcType , p);
@@ -95,14 +99,15 @@ public class SymbolCollector implements ASTVisitor {
     @Override
     public void visit(programNode it) {
         it.subprogramList.forEach(cd -> {
-            if (cd instanceof classDefStmtNode) {
-                globalScope newClassScope = new globalScope(gScope , ((classDefStmtNode) cd).className);
-                gScope.addClass(((classDefStmtNode) cd).className, newClassScope, cd.pos);
+            if (cd instanceof classDefNode) {
+                globalScope newClassScope = new globalScope(gScope , ((classDefNode) cd).className);
+                newClassScope.classTag = true;
+                gScope.addClass(((classDefNode) cd).className, newClassScope, cd.pos);
             }
         });
 
         it.subprogramList.forEach(cd -> {
-            if (cd instanceof classDefStmtNode) {
+            if (cd instanceof classDefNode) {
                 cd.accept(this);
             }
         });
@@ -116,6 +121,11 @@ public class SymbolCollector implements ASTVisitor {
 
     @Override
     public void visit(classDefStmtNode it) {
+        it.classDef.accept(this);
+    }
+
+    @Override
+    public void visit(classDefNode it) {
         tmpScope = gScope.getClassScope(it.className , it.pos);
         it.varDefList.forEach(vd -> vd.accept(this));
         it.constructfuncDefList.forEach(cd -> cd.accept(this));
@@ -130,11 +140,16 @@ public class SymbolCollector implements ASTVisitor {
 
     @Override
     public void visit(varDefStmtNode it) {
+        it.varDef.accept(this);
+    };
+
+    @Override
+    public void visit(varDefNode it) {
         it.varList.keySet().forEach(kd -> {
             if (gScope.containClassName(kd)) {
                 throw new semanticError("Semantic Error: variable rename with class" , it.pos);
             }
-            else tmpScope.addVar(kd , it.varType.type , it.pos);
+            else tmpScope.addVar(kd , it.variableType.type , it.pos);
         });
     }
 
@@ -153,12 +168,13 @@ public class SymbolCollector implements ASTVisitor {
     public void visit(funcDefNode it){
         Scope newFuncScope = new Scope(tmpScope);
         tmpScope = newFuncScope;
-        it.parameterList.accept(this);
+        ArrayList<Type> parameterList;
+        if (it.parameterList != null) {
+            it.parameterList.accept(this);
+            parameterList = new ArrayList<>();
+            it.parameterList.parameterList.forEach(cd -> parameterList.add(cd.b.type));
+        } else parameterList = null;
         tmpScope = tmpScope.parentScope();
-
-        ArrayList<Type> parameterList = new ArrayList<>();
-        it.parameterList.parameterList.values().forEach(cd -> parameterList.add(cd.type));
-
         Type funcType;
         if (it.returnType instanceof voidTypeNode) {
             funcType = new Type(it.funcName , new Type(Type.var_type.Void , 0) , parameterList);
@@ -171,14 +187,15 @@ public class SymbolCollector implements ASTVisitor {
 
     @Override
     public void visit(parameterListNode it) {
-        it.parameterList.keySet().forEach(kd -> {
-            if (it.parameterList.get(kd).type.varTypeTag == Type.var_type.Class && !gScope.containClassName(kd)) {
+        it.parameterList.forEach(kd -> {
+            if (kd.b.type.varTypeTag == Type.var_type.Class && !gScope.containClassName(kd.a)) {
                 throw new semanticError("Semantic Error: function parameter is not defined" , it.pos);
             }
-            tmpScope.addVar(kd , it.parameterList.get(kd).type , it.pos);
+            tmpScope.addVar(kd.a , kd.b.type , it.pos);
         });
     }
 
+    @Override public void visit(blockStmtNode it) {}
     @Override public void visit(suiteNode it) {}
     @Override public void visit(conditionStmtNode it) {}
     @Override public void visit(whileLoopStmtNode it) {}
@@ -201,6 +218,7 @@ public class SymbolCollector implements ASTVisitor {
     @Override public void visit(lambdaExprNode it) {}
 
     @Override public void visit(newArrayNode it) {}
+    @Override public void visit(newClassNode it) {};
 
     @Override public void visit(expressionListNode it) {}
 

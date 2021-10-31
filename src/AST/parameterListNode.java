@@ -1,10 +1,12 @@
 package AST;
 
 import Util.position;
-import java.util.HashMap;
+import org.antlr.v4.runtime.misc.Pair;
+
+import java.util.ArrayList;
 
 public class parameterListNode extends ASTNode{
-    public HashMap<String , variableTypeNode> parameterList = new HashMap<>();
+    public ArrayList<Pair<String , variableTypeNode>> parameterList = new ArrayList<>();
 
     public parameterListNode(position pos){
         super(pos);

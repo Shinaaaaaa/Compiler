@@ -1,13 +1,14 @@
 package AST;
 
+import Util.Type;
 import Util.position;
 
-public class stringConstNode extends ExprNode{
-    public String value;
+public class newClassNode extends ExprNode{
+    public Type type;
 
-    public stringConstNode(String value , position pos){
+    public newClassNode(Type type , position pos){
         super(pos);
-        this.value = value;
+        this.type = type;
     }
 
     @Override

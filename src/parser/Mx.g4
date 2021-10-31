@@ -14,7 +14,6 @@ classDef
         : Class Id '{'
         (varDef';'|funcDef|constructfuncDef)*
         '}'
-
         ;
 
 suite: '{' statement* '}';
@@ -37,9 +36,9 @@ expression: primary                                                         #ato
           | This                                                            #thisExpr
           | '[&]' '('parameterList?')' '->' suite '(' expressionList? ')'   #lambdaExpr
           | newexpression                                                   #newExpr
+          | expression '.' expression                                       #pointExpr
           | expression '[' expression ']'                                   #indexExpr
           | expression '(' expressionList? ')'                              #functionExpr
-          | expression '.' expression                                       #pointExpr
           | <assoc=right> op=('!'|'~') expression                           #unaryExpr
           | <assoc=right> op = ('+' | '-') expression                       #unaryExpr
           | <assoc=right> op=('++'|'--') expression                         #prefixSelfExpr

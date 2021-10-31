@@ -7,13 +7,20 @@ import java.util.Objects;
 
 public class Type {
     public enum var_type {
-        Int , Bool , Str , Identifier , Func , Class , Void
+        Int , Bool , Str , Func , Class , Void , Null
     }
     public var_type varTypeTag;
     public String Identifier;
     public int dimension;
     public Type funcReturnType;
     public ArrayList<Type> parameterList;
+
+    public Type(Type other) {
+        this.varTypeTag = other.varTypeTag;
+        this.dimension = other.dimension;
+        this.funcReturnType = other.funcReturnType;
+        this.parameterList = other.parameterList;
+    }
 
     public Type(var_type varType , int dimension) {
         this.varTypeTag = varType;
