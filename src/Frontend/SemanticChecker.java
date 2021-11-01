@@ -73,7 +73,9 @@ public class SemanticChecker implements ASTVisitor {
 
             }
             if (it.variableType instanceof arrayTypeNode) {
-                tmpScope.addVar(kd , new Type(it.variableType.type.varTypeTag , ((arrayTypeNode) it.variableType).dimension) , it.pos);
+                Type tmpType = new Type(it.variableType.type.varTypeTag , ((arrayTypeNode) it.variableType).dimension);
+                tmpType.Identifier = it.variableType.type.Identifier;
+                tmpScope.addVar(kd , tmpType , it.pos);
             }
             else tmpScope.addVar(kd , it.variableType.type , it.pos);
         });
@@ -121,7 +123,9 @@ public class SemanticChecker implements ASTVisitor {
 
     @Override
     public void visit(suiteNode it) {
+        tmpScope = new Scope(tmpScope);
         it.stmts.forEach(sd -> sd.accept(this));
+        tmpScope = tmpScope.parentScope();
     }
 
     @Override
@@ -270,7 +274,7 @@ public class SemanticChecker implements ASTVisitor {
                 }
             }
         }
-        ExprType = new Type(funcType.funcReturnType.varTypeTag , funcType.funcReturnType.dimension);
+        ExprType = new Type(funcType.funcReturnType);
     }
 
     @Override
@@ -281,19 +285,26 @@ public class SemanticChecker implements ASTVisitor {
             findFuncName = false;
         }
         it.lhs.accept(this);
-        if (ExprType.dimension > 0) {
-            ExprType.Identifier = "_Array";
-        } else if (ExprType.varTypeTag == Type.var_type.Str) {
-            ExprType.Identifier = "String";
-        }
-        if (!gScope.containClassName(ExprType.Identifier)) {
-            throw new semanticError("Semantic Error: class is not defined" , it.pos);
+        if (!(it.lhs instanceof thisExprNode)) {
+            if (ExprType.dimension > 0) {
+                ExprType.Identifier = "_Array";
+            } else if (ExprType.varTypeTag == Type.var_type.Str) {
+                ExprType.Identifier = "String";
+            }
+            if (!gScope.containClassName(ExprType.Identifier)) {
+                throw new semanticError("Semantic Error: class is not defined" , it.pos);
+            }
         }
         if (reset) {
             findFuncName = true;
+            reset = false;
         }
         pointUseScope = tmpScope;
-        tmpScope = gScope.getClassScope(ExprType.Identifier , it.pos);
+        if (it.lhs instanceof thisExprNode) {
+            tmpScope = tmpScope.parentScope();
+        } else {
+            tmpScope = gScope.getClassScope(ExprType.Identifier , it.pos);
+        }
         it.rhs.accept(this);
         tmpScope = pointUseScope;
     }
@@ -301,6 +312,9 @@ public class SemanticChecker implements ASTVisitor {
     @Override
     public void visit(unaryExprNode it) {
         it.expr.accept(this);
+        if (!ExprType.isLeftValue) {
+            throw new semanticError("Semantic Error: wrong left value" , it.pos);
+        }
         if (it.opcode == unaryOpType.not) {
             if (!ExprType.typeMatchCheck(new Type(Type.var_type.Bool , 0) , it.pos)) {
                 throw new semanticError("Semantic Error:  unary type error" , it.pos);
@@ -315,6 +329,9 @@ public class SemanticChecker implements ASTVisitor {
     @Override
     public void visit(prefixSelfExprNode it) {
         it.expr.accept(this);
+        if (!ExprType.isLeftValue) {
+            throw new semanticError("Semantic Error: wrong left value" , it.pos);
+        }
         if (!ExprType.typeMatchCheck(new Type(Type.var_type.Int , 0) , it.pos)) {
             throw new semanticError("Semantic Error: unary type error" , it.pos);
         }
@@ -323,9 +340,13 @@ public class SemanticChecker implements ASTVisitor {
     @Override
     public void visit(suffixSelfExprNode it) {
         it.expr.accept(this);
+        if (!ExprType.isLeftValue) {
+            throw new semanticError("Semantic Error: wrong left value" , it.pos);
+        }
         if (!ExprType.typeMatchCheck(new Type(Type.var_type.Int , 0) , it.pos)) {
             throw new semanticError("Semantic Error: unary type error" , it.pos);
         }
+        ExprType.isLeftValue = false;
     }
 
     @Override
@@ -351,7 +372,10 @@ public class SemanticChecker implements ASTVisitor {
             ExprType = new Type(Type.var_type.Bool , 0);
         } else {
             if (lhsType.varTypeTag == Type.var_type.Bool) {
-                if (it.opcode != binaryExprNode.binaryOpType.equal && it.opcode != binaryExprNode.binaryOpType.notequal) {
+                if (it.opcode != binaryExprNode.binaryOpType.equal
+                        && it.opcode != binaryExprNode.binaryOpType.notequal
+                        && it.opcode != binaryExprNode.binaryOpType.andand
+                        && it.opcode != binaryExprNode.binaryOpType.oror) {
                     throw new semanticError("Semantic Error: bool binaryOpcode error" , it.pos);
                 }
                 if (!lhsType.typeMatchCheck(rhsType , it.pos)) {
@@ -390,6 +414,8 @@ public class SemanticChecker implements ASTVisitor {
                 } else {
                     throw new semanticError("Semantic Error: string binaryOpcode error" , it.pos);
                 }
+            } else if (lhsType.varTypeTag == Type.var_type.Null && rhsType.varTypeTag == Type.var_type.Null) {
+                ExprType = new Type(Type.var_type.Bool , 0);
             } else {
                 throw new semanticError("Semantic Error: binary exprType error" , it.pos);
             }
@@ -400,6 +426,9 @@ public class SemanticChecker implements ASTVisitor {
     public void visit(assignExprNode it) {
         it.lhs.accept(this);
         Type lhsType = ExprType;
+        if (!lhsType.isLeftValue) {
+            throw new semanticError("Semantic Error: wrong left value" , it.pos);
+        }
         it.rhs.accept(this);
         Type rhsType = ExprType;
         if (lhsType.varTypeTag == Type.var_type.Null) {

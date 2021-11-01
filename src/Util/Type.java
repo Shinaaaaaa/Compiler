@@ -14,6 +14,7 @@ public class Type {
     public int dimension;
     public Type funcReturnType;
     public ArrayList<Type> parameterList;
+    public boolean isLeftValue = true;
 
     public Type(Type other) {
         this.varTypeTag = other.varTypeTag;
@@ -21,6 +22,7 @@ public class Type {
         this.dimension = other.dimension;
         this.funcReturnType = other.funcReturnType;
         this.parameterList = other.parameterList;
+        this.isLeftValue = other.isLeftValue;
     }
 
     public Type(var_type varType , int dimension) {
