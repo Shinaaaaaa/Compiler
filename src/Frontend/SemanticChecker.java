@@ -14,6 +14,7 @@ public class SemanticChecker implements ASTVisitor {
     public Type ExprType;
     public boolean inFunc = false , hasReturn = false;
     public Type tmpFuncReturnType = null;
+    public boolean findFuncName = false;
 
     public SemanticChecker(globalScope gScope) {
         this.gScope = gScope;
@@ -63,9 +64,13 @@ public class SemanticChecker implements ASTVisitor {
             }
             if (it.varList.get(kd) != null) {
                 it.varList.get(kd).accept(this);
-                if (!ExprType.typeMatchCheck(it.variableType.type , it.pos)) {
-                    throw new semanticError("Semantic Error: varDef Type not match" , it.pos);
+                if (!(ExprType.varTypeTag == Type.var_type.Null &&
+                        (it.variableType.type.dimension > 0 || it.variableType.type.varTypeTag == Type.var_type.Class))) {
+                    if (!ExprType.typeMatchCheck(it.variableType.type , it.pos)) {
+                        throw new semanticError("Semantic Error: varDef Type not match" , it.pos);
+                    }
                 }
+
             }
             if (it.variableType instanceof arrayTypeNode) {
                 tmpScope.addVar(kd , new Type(it.variableType.type.varTypeTag , ((arrayTypeNode) it.variableType).dimension) , it.pos);
@@ -207,18 +212,20 @@ public class SemanticChecker implements ASTVisitor {
 
     @Override
     public void visit(varExprNode it) {
-        if (gScope.containFuncName(it.varName)) {
-            Type funcType = gScope.getFuncType(it.varName , it.pos);
-            ExprType = new Type(it.varName , funcType.funcReturnType , funcType.parameterList);
-        } else if (tmpScope instanceof globalScope && ((globalScope) tmpScope).containFuncName(it.varName)) {
-            Type funcType = ((globalScope) tmpScope).getFuncType(it.varName , it.pos);
-            ExprType = new Type(it.varName , funcType.funcReturnType , funcType.parameterList);
-        } else {
-            if (!tmpScope.containsVar(it.varName , true)) {
-                throw new semanticError("Semantic Error: not defined" , it.pos);
+        if (findFuncName) {
+            if (tmpScope instanceof globalScope && ((globalScope) tmpScope).containFuncName(it.varName)) {
+                ExprType = ((globalScope) tmpScope).getFuncType(it.varName , it.pos);
+            } else if (gScope.containFuncName(it.varName)) {
+                ExprType = gScope.getFuncType(it.varName , it.pos);
+            } else {
+                throw new semanticError("Semantic Error: funcName not exisits" , it.pos);
             }
-            ExprType = tmpScope.getType(it.varName , true);
+            return;
         }
+        if (!tmpScope.containsVar(it.varName , true)) {
+            throw new semanticError("Semantic Error: not defined" , it.pos);
+        }
+        ExprType = tmpScope.getType(it.varName , true);
     }
 
     @Override
@@ -245,13 +252,10 @@ public class SemanticChecker implements ASTVisitor {
 
     @Override
     public void visit(functionExprNode it) {
+        findFuncName = true;
         it.funcName.accept(this);
-        if (!ExprType.typeMatchCheck(new Type(Type.var_type.Func , 0) , it.pos)) {
-            throw new semanticError("Semantic Error:  funcName is not func call" , it.pos);
-        }
-
+        findFuncName = false;
         Type funcType = ExprType;
-
         if ((it.exprList == null && funcType.parameterList != null)
                 || (it.exprList != null && funcType.parameterList == null)) {
             throw new semanticError("Semantic Error: func parameter & expr not match" , it.pos);
@@ -271,14 +275,22 @@ public class SemanticChecker implements ASTVisitor {
 
     @Override
     public void visit(pointExprNode it) {
+        boolean reset = false;
+        if (findFuncName) {
+            reset = true;
+            findFuncName = false;
+        }
         it.lhs.accept(this);
         if (ExprType.dimension > 0) {
-            ExprType.Identifier = "Array";
+            ExprType.Identifier = "_Array";
         } else if (ExprType.varTypeTag == Type.var_type.Str) {
             ExprType.Identifier = "String";
         }
         if (!gScope.containClassName(ExprType.Identifier)) {
             throw new semanticError("Semantic Error: class is not defined" , it.pos);
+        }
+        if (reset) {
+            findFuncName = true;
         }
         pointUseScope = tmpScope;
         tmpScope = gScope.getClassScope(ExprType.Identifier , it.pos);
@@ -393,8 +405,10 @@ public class SemanticChecker implements ASTVisitor {
         if (lhsType.varTypeTag == Type.var_type.Null) {
             throw new semanticError("Semantic Error: null cannot be assigned" , it.pos);
         }
-        if (it.lhs instanceof booleanConstNode) {
-            throw new semanticError("Semantic Error: true & false cannot be assigned" , it.pos);
+        if (it.lhs instanceof booleanConstNode
+                || it.lhs instanceof intConstNode
+                || it.lhs instanceof stringConstNode) {
+            throw new semanticError("Semantic Error: const cannot be assigned" , it.pos);
         }
         if (it.rhs instanceof nullConstNode && (lhsType.dimension > 0 || lhsType.varTypeTag == Type.var_type.Class)) {
             return;
@@ -439,6 +453,7 @@ public class SemanticChecker implements ASTVisitor {
         });
         it.type.accept(this);
         ExprType = new Type(ExprType.varTypeTag , it.dimension);
+        if (ExprType.varTypeTag == Type.var_type.Class) ExprType.Identifier = it.type.type.Identifier;
     }
 
     @Override

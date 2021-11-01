@@ -13,10 +13,12 @@ public class arrayTypeNode extends variableTypeNode{
             this.vartype = ((arrayTypeNode) vartype).vartype;
             this.dimension = ((arrayTypeNode) vartype).dimension + 1;
             super.type = new Type(vartype.type.varTypeTag , this.dimension);
+            if (vartype.type.Identifier != null) super.type.Identifier = vartype.type.Identifier;
         } else {
             this.vartype = vartype;
             this.dimension = 1;
             super.type = new Type(vartype.type.varTypeTag , 1);
+            if (vartype.type.Identifier != null) super.type.Identifier = vartype.type.Identifier;
         }
     }
 

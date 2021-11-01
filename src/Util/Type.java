@@ -17,6 +17,7 @@ public class Type {
 
     public Type(Type other) {
         this.varTypeTag = other.varTypeTag;
+        this.Identifier = other.Identifier;
         this.dimension = other.dimension;
         this.funcReturnType = other.funcReturnType;
         this.parameterList = other.parameterList;

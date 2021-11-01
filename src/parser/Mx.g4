@@ -24,7 +24,7 @@ statement
          | classDef ';'                                                         #classDefStmt
          | If '(' expression ')' statement (Else statement)?                    #conditionStmt
          | While '(' expression ')' statement                                   #whileLoopStmt
-         | For '(' expression? ';' expression? ';' expression? ')' statement    #forLoopStmt
+         | For '(' ForInit = expression? ';' ForCond = expression? ';' ForIncrement = expression? ')' statement    #forLoopStmt
          | Return expression? ';'                                               #returnStmt
          | Break ';'                                                            #breakStmt
          | Continue ';'                                                         #continueStmt

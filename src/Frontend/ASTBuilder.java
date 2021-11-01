@@ -33,6 +33,9 @@ public class ASTBuilder extends MxBaseVisitor<ASTNode>{
     @Override public ASTNode visitVarDef(MxParser.VarDefContext ctx) {
         varDefNode varDef = new varDefNode((variableTypeNode) visit(ctx.variableType()) , new position(ctx));
         for (int i = 0 ; i < ctx.Id().size() ; ++i) {
+            if (varDef.varList.containsKey(ctx.Id(i).toString())) {
+                throw new semanticError("Semantic Error: class is not defined" , new position(ctx));
+            }
             if (ctx.expression(i) != null) varDef.varList.put(ctx.Id(i).toString() , (ExprNode) visit(ctx.expression(i)));
             else varDef.varList.put(ctx.Id(i).toString() , null);
         }
@@ -93,8 +96,17 @@ public class ASTBuilder extends MxBaseVisitor<ASTNode>{
     }
 
     @Override public ASTNode visitForLoopStmt(MxParser.ForLoopStmtContext ctx) {
-        return new forLoopStmtNode((ExprNode) visit(ctx.expression(0)) , (ExprNode) visit(ctx.expression(1))
-                , (ExprNode) visit(ctx.expression(2)) , (StmtNode) visit(ctx.statement()) , new position(ctx));
+        ExprNode forInit , forCond , forIncrement;
+        if (ctx.ForInit != null) {
+            forInit = (ExprNode) visit(ctx.ForInit);
+        } else forInit = null;
+        if (ctx.ForCond != null) {
+            forCond = (ExprNode) visit(ctx.ForCond);
+        } else forCond = null;
+        if (ctx.ForIncrement != null) {
+            forIncrement = (ExprNode) visit(ctx.ForIncrement);
+        } else forIncrement = null;
+        return new forLoopStmtNode(forInit , forCond , forIncrement , (StmtNode) visit(ctx.statement()) , new position(ctx));
     }
 
     @Override public ASTNode visitReturnStmt(MxParser.ReturnStmtContext ctx) {

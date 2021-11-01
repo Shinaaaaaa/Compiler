@@ -61,8 +61,8 @@ public class SymbolCollector implements ASTVisitor {
         funcScope.addVar("i" , new Type(Type.var_type.Int , 0) , p);
         gScope.addFunc("toString" , funcScope , funcType , p);
 
-        globalScope newArrayScope = new globalScope(gScope , "Array");
-        gScope.addClass("Array" , newArrayScope , p);
+        globalScope newArrayScope = new globalScope(gScope , "_Array");
+        gScope.addClass("_Array" , newArrayScope , p);
 
         funcScope = new Scope(gScope);
         funcType = new Type("size" , new Type(Type.var_type.Int , 0) , null);
@@ -188,7 +188,7 @@ public class SymbolCollector implements ASTVisitor {
     @Override
     public void visit(parameterListNode it) {
         it.parameterList.forEach(kd -> {
-            if (kd.b.type.varTypeTag == Type.var_type.Class && !gScope.containClassName(kd.a)) {
+            if (kd.b.type.varTypeTag == Type.var_type.Class && !gScope.containClassName(kd.b.type.Identifier)) {
                 throw new semanticError("Semantic Error: function parameter is not defined" , it.pos);
             }
             tmpScope.addVar(kd.a , kd.b.type , it.pos);

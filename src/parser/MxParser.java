@@ -833,6 +833,9 @@ public class MxParser extends Parser {
 		}
 	}
 	public static class ForLoopStmtContext extends StatementContext {
+		public ExpressionContext ForInit;
+		public ExpressionContext ForCond;
+		public ExpressionContext ForIncrement;
 		public TerminalNode For() { return getToken(MxParser.For, 0); }
 		public TerminalNode LeftParen() { return getToken(MxParser.LeftParen, 0); }
 		public List<TerminalNode> Semicolon() { return getTokens(MxParser.Semicolon); }
@@ -1006,7 +1009,7 @@ public class MxParser extends Parser {
 				if ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << T__0) | (1L << Null) | (1L << True) | (1L << False) | (1L << New) | (1L << This) | (1L << LeftParen) | (1L << Plus) | (1L << SelfPlus) | (1L << Minus) | (1L << SelfMinus) | (1L << Not) | (1L << Tilde) | (1L << Id) | (1L << IntConst) | (1L << StringConst))) != 0)) {
 					{
 					setState(132);
-					expression(0);
+					((ForLoopStmtContext)_localctx).ForInit = expression(0);
 					}
 				}
 
@@ -1018,7 +1021,7 @@ public class MxParser extends Parser {
 				if ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << T__0) | (1L << Null) | (1L << True) | (1L << False) | (1L << New) | (1L << This) | (1L << LeftParen) | (1L << Plus) | (1L << SelfPlus) | (1L << Minus) | (1L << SelfMinus) | (1L << Not) | (1L << Tilde) | (1L << Id) | (1L << IntConst) | (1L << StringConst))) != 0)) {
 					{
 					setState(136);
-					expression(0);
+					((ForLoopStmtContext)_localctx).ForCond = expression(0);
 					}
 				}
 
@@ -1030,7 +1033,7 @@ public class MxParser extends Parser {
 				if ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << T__0) | (1L << Null) | (1L << True) | (1L << False) | (1L << New) | (1L << This) | (1L << LeftParen) | (1L << Plus) | (1L << SelfPlus) | (1L << Minus) | (1L << SelfMinus) | (1L << Not) | (1L << Tilde) | (1L << Id) | (1L << IntConst) | (1L << StringConst))) != 0)) {
 					{
 					setState(140);
-					expression(0);
+					((ForLoopStmtContext)_localctx).ForIncrement = expression(0);
 					}
 				}
 
