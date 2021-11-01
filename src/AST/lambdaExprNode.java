@@ -2,19 +2,17 @@ package AST;
 
 import Util.position;
 
-import java.util.ArrayList;
-
-public class lambdaExprNode extends ASTNode{
-    public parameterListNode parameterList;
+public class lambdaExprNode extends ExprNode{
+    public parameterListNode lambdaParameterList;
     public suiteNode suite;
-    public expressionListNode expressionList;
+    public expressionListNode lambdaExpressionList;
 
     public lambdaExprNode(parameterListNode parameterList , suiteNode suite ,
                           expressionListNode expressionList , position pos){
         super(pos);
-        this.parameterList = parameterList;
+        this.lambdaParameterList = parameterList;
         this.suite = suite;
-        this.expressionList = expressionList;
+        this.lambdaExpressionList = expressionList;
     }
 
     @Override

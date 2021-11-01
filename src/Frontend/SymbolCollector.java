@@ -68,8 +68,8 @@ public class SymbolCollector implements ASTVisitor {
         funcType = new Type("size" , new Type(Type.var_type.Int , 0) , null);
         newArrayScope.addFunc("size" , funcScope , funcType , p);
 
-        globalScope newStringScope = new globalScope(gScope , "String");
-        gScope.addClass("String" , newStringScope , p);
+        globalScope newStringScope = new globalScope(gScope , "_String");
+        gScope.addClass("_String" , newStringScope , p);
 
         funcScope = new Scope(gScope);
         funcType = new Type("length" , new Type(Type.var_type.Int , 0) , null);

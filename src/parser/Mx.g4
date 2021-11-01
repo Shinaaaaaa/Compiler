@@ -56,11 +56,11 @@ expression: primary                                                         #ato
           | <assoc=right> expression '=' expression                         #assignExpr
           ;
 
-newexpression: New singleType ('['expression']')+ ('['']')*                      #newArray
-             | New Id ('('')')?                                                  #newClass
-             | New singleType ('['expression']')+ ('['']')+ ('['expression']')+  #wrongNew_1
+newexpression: New singleType ('['expression']')+ ('['']')+ ('['expression']')+  #wrongNew_1
              | New singleType ('['']')+ ('['expression']')*                      #wrongNew_2
-             ;
+             | New singleType ('['expression']')+ ('['']')*                      #newArray
+             | New Id ('('')')?                                                  #newClass
+              ;
 
 parameterList: variableType Id (',' variableType Id)*;
 

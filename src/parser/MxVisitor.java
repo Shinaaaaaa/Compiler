@@ -214,20 +214,6 @@ public interface MxVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitFunctionExpr(MxParser.FunctionExprContext ctx);
 	/**
-	 * Visit a parse tree produced by the {@code newArray}
-	 * labeled alternative in {@link MxParser#newexpression}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitNewArray(MxParser.NewArrayContext ctx);
-	/**
-	 * Visit a parse tree produced by the {@code newClass}
-	 * labeled alternative in {@link MxParser#newexpression}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitNewClass(MxParser.NewClassContext ctx);
-	/**
 	 * Visit a parse tree produced by the {@code wrongNew_1}
 	 * labeled alternative in {@link MxParser#newexpression}.
 	 * @param ctx the parse tree
@@ -241,6 +227,20 @@ public interface MxVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitWrongNew_2(MxParser.WrongNew_2Context ctx);
+	/**
+	 * Visit a parse tree produced by the {@code newArray}
+	 * labeled alternative in {@link MxParser#newexpression}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitNewArray(MxParser.NewArrayContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code newClass}
+	 * labeled alternative in {@link MxParser#newexpression}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitNewClass(MxParser.NewClassContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link MxParser#parameterList}.
 	 * @param ctx the parse tree

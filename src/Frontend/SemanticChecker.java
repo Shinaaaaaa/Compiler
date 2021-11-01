@@ -13,7 +13,7 @@ public class SemanticChecker implements ASTVisitor {
     public Scope pointUseScope;
     public Type ExprType;
     public boolean inFunc = false , hasReturn = false;
-    public Type tmpFuncReturnType = null;
+    public Type tmpFuncReturnType = null , lambdaFuncReturnType = null;
     public boolean findFuncName = false;
 
     public SemanticChecker(globalScope gScope) {
@@ -45,6 +45,7 @@ public class SemanticChecker implements ASTVisitor {
     public void visit(classDefNode it) {
         tmpScope = gScope.getClassScope(it.className , it.pos);
         it.funcDefList.forEach(fd -> fd.accept(this));
+        it.constructfuncDefList.forEach(fd -> fd.accept(this));
         tmpScope = tmpScope.parentScope();
     }
 
@@ -118,14 +119,16 @@ public class SemanticChecker implements ASTVisitor {
     }
 
     @Override public void visit(blockStmtNode it) {
+        tmpScope = new Scope(tmpScope);
         it.suite.accept(this);
+        tmpScope = tmpScope.parentScope();
     };
 
     @Override
     public void visit(suiteNode it) {
-        tmpScope = new Scope(tmpScope);
-        it.stmts.forEach(sd -> sd.accept(this));
-        tmpScope = tmpScope.parentScope();
+        it.stmts.forEach(sd -> {
+            if (sd != null) sd.accept(this);
+        });
     }
 
     @Override
@@ -134,9 +137,11 @@ public class SemanticChecker implements ASTVisitor {
         if (!ExprType.typeMatchCheck(new Type(Type.var_type.Bool , 0) , it.pos)) {
             throw new semanticError("Semantic Error:  conditionStmt condition is not Bool" , it.pos);
         }
-        tmpScope = new Scope(tmpScope);
-        it.thenStmt.accept(this);
-        tmpScope = tmpScope.parentScope();
+        if (it.thenStmt != null) {
+            tmpScope = new Scope(tmpScope);
+            it.thenStmt.accept(this);
+            tmpScope = tmpScope.parentScope();
+        }
         if (it.elseStmt != null) {
             tmpScope = new Scope(tmpScope);
             it.elseStmt.accept(this);
@@ -155,7 +160,9 @@ public class SemanticChecker implements ASTVisitor {
         }
         tmpScope = new Scope(tmpScope);
         tmpScope.inLoop = true;
-        it.loopStmt.accept(this);
+        if (it.loopStmt != null) {
+            it.loopStmt.accept(this);
+        }
         tmpScope = tmpScope.parentScope();
     }
 
@@ -175,6 +182,9 @@ public class SemanticChecker implements ASTVisitor {
         if (it.incrementExpr != null) {
             it.incrementExpr.accept(this);
         }
+        if (it.loopStmt != null) {
+            it.loopStmt.accept(this);
+        }
         tmpScope = tmpScope.parentScope();
     }
 
@@ -184,7 +194,10 @@ public class SemanticChecker implements ASTVisitor {
         else {
             it.value.accept(this);
         }
-        if (!inFunc) {
+        if (tmpScope.lambdaExist) {
+            tmpScope.lambdaReturn = true;
+            lambdaFuncReturnType = ExprType;
+        } else if (!inFunc) {
             throw new semanticError("Semantic Error:  returnStmt in wrong position" , it.pos);
         } else {
             if (!ExprType.typeMatchCheck(tmpFuncReturnType , it.pos)) {
@@ -217,10 +230,14 @@ public class SemanticChecker implements ASTVisitor {
     @Override
     public void visit(varExprNode it) {
         if (findFuncName) {
-            if (tmpScope instanceof globalScope && ((globalScope) tmpScope).containFuncName(it.varName)) {
-                ExprType = ((globalScope) tmpScope).getFuncType(it.varName , it.pos);
+            Scope classScope;
+            if (!(tmpScope instanceof globalScope)) {
+                classScope = tmpScope.parentScope();
+            } else classScope = tmpScope;
+            if (classScope instanceof globalScope && ((globalScope) classScope).containFuncName(it.varName)) {
+                ExprType = new Type(((globalScope) classScope).getFuncType(it.varName , it.pos));
             } else if (gScope.containFuncName(it.varName)) {
-                ExprType = gScope.getFuncType(it.varName , it.pos);
+                ExprType = new Type(gScope.getFuncType(it.varName , it.pos));
             } else {
                 throw new semanticError("Semantic Error: funcName not exisits" , it.pos);
             }
@@ -229,7 +246,7 @@ public class SemanticChecker implements ASTVisitor {
         if (!tmpScope.containsVar(it.varName , true)) {
             throw new semanticError("Semantic Error: not defined" , it.pos);
         }
-        ExprType = tmpScope.getType(it.varName , true);
+        ExprType = new Type(tmpScope.getType(it.varName , true));
     }
 
     @Override
@@ -269,12 +286,17 @@ public class SemanticChecker implements ASTVisitor {
             }
             for (int i = 0; i < Objects.requireNonNull(it.exprList).exprList.size() ; ++i) {
                 it.exprList.exprList.get(i).accept(this);
+                if (it.exprList.exprList.get(i) instanceof thisExprNode) {
+                    ExprType = new Type(Type.var_type.Class , 0);
+                    ExprType.Identifier = ((globalScope) tmpScope.parentScope()).name;
+                }
                 if (!ExprType.typeMatchCheck(funcType.parameterList.get(i) , it.pos)) {
                     throw new semanticError("Semantic Error: func parameter & expr not match" , it.pos);
                 }
             }
         }
         ExprType = new Type(funcType.funcReturnType);
+        ExprType.isLeftValue = false;
     }
 
     @Override
@@ -289,7 +311,7 @@ public class SemanticChecker implements ASTVisitor {
             if (ExprType.dimension > 0) {
                 ExprType.Identifier = "_Array";
             } else if (ExprType.varTypeTag == Type.var_type.Str) {
-                ExprType.Identifier = "String";
+                ExprType.Identifier = "_String";
             }
             if (!gScope.containClassName(ExprType.Identifier)) {
                 throw new semanticError("Semantic Error: class is not defined" , it.pos);
@@ -424,6 +446,9 @@ public class SemanticChecker implements ASTVisitor {
 
     @Override
     public void visit(assignExprNode it) {
+        if (it.lhs instanceof thisExprNode) {
+            throw new semanticError("Semantic Error: This cannot be assigned" , it.pos);
+        }
         it.lhs.accept(this);
         Type lhsType = ExprType;
         if (!lhsType.isLeftValue) {
@@ -450,25 +475,30 @@ public class SemanticChecker implements ASTVisitor {
     @Override
     public void visit(lambdaExprNode it) {
         tmpScope = new Scope(tmpScope);
-
-        if (it.parameterList != null && it.expressionList != null) {
-            if (it.parameterList.parameterList.size() == it.expressionList.exprList.size()) {
+        tmpScope.lambdaExist = true;
+        lambdaFuncReturnType = null;
+        if (it.lambdaParameterList != null && it.lambdaExpressionList != null) {
+            if (it.lambdaParameterList.parameterList.size() != it.lambdaExpressionList.exprList.size()) {
                 throw new semanticError("Semantic Error: lambda parameter & expr not match" , it.pos);
             }
-        } else if ((it.expressionList == null && it.parameterList != null)
-                || (it.expressionList != null && it.parameterList == null)) {
+        } else if ((it.lambdaExpressionList == null && it.lambdaParameterList != null)
+                || (it.lambdaExpressionList != null && it.lambdaParameterList == null)) {
             throw new semanticError("Semantic Error: lambda parameter & expr not match" , it.pos);
         }
-        if (it.parameterList != null) {
-            it.parameterList.accept(this);
-            for (int i = 0; i < Objects.requireNonNull(it.expressionList).exprList.size() ; ++i) {
-                it.expressionList.exprList.get(i).accept(this);
-                if (!ExprType.typeMatchCheck(it.parameterList.parameterList.get(i).b.type , it.pos)) {
+        if (it.lambdaParameterList != null) {
+            it.lambdaParameterList.accept(this);
+            for (int i = 0; i < Objects.requireNonNull(it.lambdaExpressionList).exprList.size() ; ++i) {
+                it.lambdaExpressionList.exprList.get(i).accept(this);
+                if (!ExprType.typeMatchCheck(it.lambdaParameterList.parameterList.get(i).b.type , it.pos)) {
                     throw new semanticError("Semantic Error: lambda parameter & expr not match" , it.pos);
                 }
             }
         }
         it.suite.accept(this);
+        ExprType = lambdaFuncReturnType;
+        if (!tmpScope.lambdaReturn) {
+            throw new semanticError("Semantic Error: lambda not exists return" , it.pos);
+        }
         tmpScope = tmpScope.parentScope();
     }
 
@@ -487,19 +517,19 @@ public class SemanticChecker implements ASTVisitor {
 
     @Override
     public void visit(newClassNode it) {
-        ExprType = it.type;
+        ExprType = new Type(it.type);
     }
 
     @Override public void visit(expressionListNode it) {}
 
     @Override
     public void visit(singleTypeNode it) {
-        ExprType = it.type;
+        ExprType = new Type(it.type);
     }
 
     @Override
     public void visit(arrayTypeNode it) {
-        ExprType = it.type;
+        ExprType = new Type(it.type);
     }
 
     @Override

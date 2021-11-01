@@ -8,6 +8,7 @@ public class Scope {
     private HashMap<String , Type> members;
     private Scope parentScope;
     public boolean inLoop = false;
+    public boolean lambdaExist = false , lambdaReturn = false;
 
 //    public Scope(HashMap<String , Type> members , Scope parentScope , boolean inLoop) {
 //        this.members = new HashMap<>();

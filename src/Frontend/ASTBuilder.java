@@ -82,12 +82,14 @@ public class ASTBuilder extends MxBaseVisitor<ASTNode>{
     }
 
     @Override public ASTNode visitConditionStmt(MxParser.ConditionStmtContext ctx) {
-        StmtNode elseStmt;
+        StmtNode thenStmt , elseStmt;
+        if (ctx.statement(0) != null) {
+            thenStmt = (StmtNode) visit(ctx.statement(0));
+        } else thenStmt = null;
         if (ctx.statement(1) != null) {
             elseStmt = (StmtNode) visit(ctx.statement(1));
         } else elseStmt = null;
-        return new conditionStmtNode((ExprNode) visit(ctx.expression()) , (StmtNode) visit(ctx.statement(0))
-                , elseStmt , new position(ctx));
+        return new conditionStmtNode((ExprNode) visit(ctx.expression()) , thenStmt , elseStmt , new position(ctx));
     }
 
     @Override public ASTNode visitWhileLoopStmt(MxParser.WhileLoopStmtContext ctx) {
