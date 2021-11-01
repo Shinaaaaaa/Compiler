@@ -13,6 +13,7 @@ public class SemanticChecker implements ASTVisitor {
     public Scope pointUseScope;
     public Type ExprType;
     public boolean inFunc = false , hasReturn = false;
+    public boolean inConstructFunc = false;
     public Type tmpFuncReturnType = null , lambdaFuncReturnType = null;
     public boolean findFuncName = false;
 
@@ -85,7 +86,9 @@ public class SemanticChecker implements ASTVisitor {
     @Override
     public void visit(constructfuncDefNode it) {
         tmpScope = ((globalScope) tmpScope).getFuncScope(it.funcName , it.pos);
+        inConstructFunc = true;
         it.suite.accept(this);
+        inConstructFunc = false;
         tmpScope = tmpScope.parentScope();
     }
 
@@ -197,10 +200,18 @@ public class SemanticChecker implements ASTVisitor {
         if (tmpScope.lambdaExist) {
             tmpScope.lambdaReturn = true;
             lambdaFuncReturnType = ExprType;
+        } if (inConstructFunc) {
+            if (it.value != null) {
+                throw new semanticError("Semantic Error:  returnStmt in ConstructFunc" , it.pos);
+            }
         } else if (!inFunc) {
             throw new semanticError("Semantic Error:  returnStmt in wrong position" , it.pos);
         } else {
-            if (!ExprType.typeMatchCheck(tmpFuncReturnType , it.pos)) {
+            if (it.value instanceof nullConstNode) {
+                if (!(tmpFuncReturnType.dimension > 0 || tmpFuncReturnType.varTypeTag == Type.var_type.Class)) {
+                    throw new semanticError("Semantic Error:  return type not match" , it.pos);
+                }
+            } else if (!ExprType.typeMatchCheck(tmpFuncReturnType , it.pos)) {
                 throw new semanticError("Semantic Error:  return type not match" , it.pos);
             } else {
                 hasReturn = true;
@@ -230,11 +241,11 @@ public class SemanticChecker implements ASTVisitor {
     @Override
     public void visit(varExprNode it) {
         if (findFuncName) {
-            Scope classScope;
-            if (!(tmpScope instanceof globalScope)) {
-                classScope = tmpScope.parentScope();
-            } else classScope = tmpScope;
-            if (classScope instanceof globalScope && ((globalScope) classScope).containFuncName(it.varName)) {
+            Scope classScope = tmpScope;
+            while (!(classScope instanceof globalScope)) {
+                classScope = classScope.parentScope();
+            }
+            if (((globalScope) classScope).containFuncName(it.varName)) {
                 ExprType = new Type(((globalScope) classScope).getFuncType(it.varName , it.pos));
             } else if (gScope.containFuncName(it.varName)) {
                 ExprType = new Type(gScope.getFuncType(it.varName , it.pos));
@@ -252,9 +263,14 @@ public class SemanticChecker implements ASTVisitor {
     @Override
     public void visit(thisExprNode it) {
         Scope judgeScope = tmpScope.parentScope();
-        if (!(judgeScope instanceof globalScope) || !((globalScope)judgeScope).classTag) {
+        while (!(judgeScope instanceof globalScope)) {
+            judgeScope = judgeScope.parentScope();
+        }
+        if (!((globalScope)judgeScope).classTag) {
             throw new semanticError("Semantic Error: this not in class" , it.pos);
         }
+        ExprType = new Type(Type.var_type.Class , 0);
+        ExprType.Identifier = ((globalScope) judgeScope).name;
     }
 
     @Override
@@ -289,6 +305,11 @@ public class SemanticChecker implements ASTVisitor {
                 if (it.exprList.exprList.get(i) instanceof thisExprNode) {
                     ExprType = new Type(Type.var_type.Class , 0);
                     ExprType.Identifier = ((globalScope) tmpScope.parentScope()).name;
+                }
+                if (ExprType.varTypeTag == Type.var_type.Null) {
+                    if (funcType.parameterList.get(i).dimension > 0 || funcType.parameterList.get(i).varTypeTag == Type.var_type.Class) {
+                        continue;
+                    }
                 }
                 if (!ExprType.typeMatchCheck(funcType.parameterList.get(i) , it.pos)) {
                     throw new semanticError("Semantic Error: func parameter & expr not match" , it.pos);
@@ -334,9 +355,6 @@ public class SemanticChecker implements ASTVisitor {
     @Override
     public void visit(unaryExprNode it) {
         it.expr.accept(this);
-        if (!ExprType.isLeftValue) {
-            throw new semanticError("Semantic Error: wrong left value" , it.pos);
-        }
         if (it.opcode == unaryOpType.not) {
             if (!ExprType.typeMatchCheck(new Type(Type.var_type.Bool , 0) , it.pos)) {
                 throw new semanticError("Semantic Error:  unary type error" , it.pos);

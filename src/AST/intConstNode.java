@@ -3,8 +3,8 @@ package AST;
 import Util.position;
 
 public class intConstNode extends ExprNode{
-    public int value;
-    public intConstNode(int value , position pos){
+    public long value;
+    public intConstNode(long value , position pos){
         super(pos);
         this.value = value;
     }
