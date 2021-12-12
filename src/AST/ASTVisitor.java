@@ -1,5 +1,12 @@
 package AST;
 
+import AST.Const.*;
+import AST.Def.*;
+import AST.Expr.*;
+import AST.New.*;
+import AST.Stmt.*;
+import AST.ASTtype.*;
+
 public interface ASTVisitor {
     void visit(programNode it);
 
@@ -21,8 +28,6 @@ public interface ASTVisitor {
     void visit(continueStmtNode it);
     void visit(exprStmtNode it);
 
-    //TODO type需要修改 constExpr 部分expr运算
-    //TODO lambda 和 new
     void visit(varExprNode it);
     void visit(thisExprNode it);
     void visit(indexExprNode it);
@@ -42,7 +47,7 @@ public interface ASTVisitor {
     void visit(parameterListNode it);
 
     void visit(singleTypeNode it);
-    void visit(arrayTypeNode it); //TODO arrayType need to modify
+    void visit(arrayTypeNode it);
     void visit(voidTypeNode it);
 
     void visit(intConstNode it);

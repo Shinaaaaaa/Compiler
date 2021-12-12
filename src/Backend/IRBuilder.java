@@ -1,6 +1,16 @@
 package Backend;
 
 import AST.*;
+import AST.Const.*;
+import AST.Def.*;
+import AST.Expr.*;
+import AST.New.*;
+import AST.Stmt.*;
+import AST.ASTtype.*;
+import LLVMIR.*;
+import LLVMIR.entity.*;
+import LLVMIR.inst.*;
+import LLVMIR.IRType.*;
 
 public class IRBuilder implements ASTVisitor {
 

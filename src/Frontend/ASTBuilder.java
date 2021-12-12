@@ -1,14 +1,20 @@
 package Frontend;
 
 import AST.*;
-import Parser.MxBaseVisitor;
-import Parser.MxParser;
+import AST.Const.*;
+import AST.Def.*;
+import AST.Expr.*;
+import AST.New.*;
+import AST.Stmt.*;
+import AST.ASTtype.*;
+import AST.Expr.unaryExprNode.unaryOpType;
+import AST.Expr.prefixSelfExprNode.prefixSelfOpType;
+import AST.Expr.suffixSelfExprNode.suffixSelfOpType;
+import AST.Expr.binaryExprNode.binaryOpType;
 import Util.*;
 import Util.error.*;
-import AST.unaryExprNode.unaryOpType;
-import AST.prefixSelfExprNode.prefixSelfOpType;
-import AST.suffixSelfExprNode.suffixSelfOpType;
-import AST.binaryExprNode.binaryOpType;
+import Parser.MxBaseVisitor;
+import Parser.MxParser;
 import org.antlr.v4.runtime.misc.Pair;
 
 public class ASTBuilder extends MxBaseVisitor<ASTNode>{

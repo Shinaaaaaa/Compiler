@@ -1,10 +1,15 @@
 package Frontend;
 
 import AST.*;
+import AST.Const.*;
+import AST.Def.*;
+import AST.Expr.*;
+import AST.New.*;
+import AST.Stmt.*;
+import AST.ASTtype.*;
+import AST.Expr.unaryExprNode.unaryOpType;
 import Util.*;
 import Util.error.semanticError;
-import AST.unaryExprNode.unaryOpType;
-
 import java.util.Objects;
 
 public class SemanticChecker implements ASTVisitor {

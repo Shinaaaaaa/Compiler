@@ -1,7 +1,5 @@
 package Util;
 
-import Util.error.semanticError;
-
 import java.util.ArrayList;
 import java.util.Objects;
 

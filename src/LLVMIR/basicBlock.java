@@ -1,6 +1,6 @@
 package LLVMIR;
 
-import LLVMIR.Inst.*;
+import LLVMIR.inst.*;
 import java.util.ArrayList;
 
 public class basicBlock {

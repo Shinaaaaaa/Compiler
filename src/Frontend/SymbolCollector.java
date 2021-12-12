@@ -1,6 +1,12 @@
 package Frontend;
 
 import AST.*;
+import AST.Const.*;
+import AST.Def.*;
+import AST.Expr.*;
+import AST.New.*;
+import AST.Stmt.*;
+import AST.ASTtype.*;
 import Util.*;
 import Util.error.semanticError;
 

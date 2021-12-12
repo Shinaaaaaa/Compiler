@@ -1,7 +1,6 @@
 package AST;
 
 import Util.position;
-
 import java.util.ArrayList;
 
 public class programNode extends ASTNode{
