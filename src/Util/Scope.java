@@ -1,12 +1,13 @@
 package Util;
 
+import LLVMIR.entity.*;
 import Util.error.semanticError;
 
 import java.util.HashMap;
 
 public class Scope {
-    private HashMap<String , Type> members;
-    private Scope parentScope;
+    public HashMap<String , Type> members;
+    public Scope parentScope;
     public boolean inLoop = false;
     public boolean lambdaExist = false , lambdaReturn = false;
 

@@ -7,9 +7,9 @@ import java.util.HashMap;
 public class globalScope extends Scope {
     public String name;
     public boolean classTag = false;
-    private HashMap<String , globalScope> classList = new HashMap<>();
-    private HashMap<String , Scope> funcList = new HashMap<>();
-    private HashMap<String , Type> funcTypeList = new HashMap<>();
+    public HashMap<String , globalScope> classList = new HashMap<>();
+    public HashMap<String , Scope> funcList = new HashMap<>();
+    public HashMap<String , Type> funcTypeList = new HashMap<>();
 
     public globalScope(Scope parentScope , String name) {
         super(parentScope);

@@ -1,9 +1,9 @@
 package LLVMIR.IRType;
 
-public class Pointer extends IRType {
+public class pointerType extends IRType {
     public IRType pointerType;
 
-    public Pointer(IRType pointerType) {
+    public pointerType(IRType pointerType) {
         this.pointerType = pointerType;
     }
 

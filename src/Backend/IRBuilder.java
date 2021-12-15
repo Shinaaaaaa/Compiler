@@ -11,13 +11,18 @@ import LLVMIR.*;
 import LLVMIR.entity.*;
 import LLVMIR.inst.*;
 import LLVMIR.IRType.*;
+import Util.*;
 
 public class IRBuilder implements ASTVisitor {
+    globalScope gScope;
 
+    public IRBuilder(globalScope gScope) {
+        this.gScope = gScope;
+    }
 
     @Override
     public void visit(programNode it) {
-
+        it.subprogramList.forEach(sd -> sd.accept(this));
     }
 
     @Override

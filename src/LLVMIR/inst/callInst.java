@@ -6,9 +6,9 @@ import LLVMIR.IRType.*;
 
 public class callInst extends inst {
     public register reg;
-    public Function func;
+    public functionType func;
 
-    public callInst(basicBlock block_BelongTo , register reg , Function func) {
+    public callInst(basicBlock block_BelongTo , register reg , functionType func) {
         super(block_BelongTo);
         this.reg = reg;
         this.func = func;

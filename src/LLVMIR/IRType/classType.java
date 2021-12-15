@@ -2,15 +2,15 @@ package LLVMIR.IRType;
 
 import java.util.ArrayList;
 
-public class Class extends IRType {
-    public ArrayList<IRType> typeLists = new ArrayList<>();
+public class classType extends IRType {
     public String className;
+    public ArrayList<IRType> typeLists = new ArrayList<>();
 
-    public Class(String className) {
+    public classType(String className) {
         this.className = className;
     }
 
-    public void addIRTypeInCass(IRType IRtype){
+    public void addIRTypeInClass(IRType IRtype){
         typeLists.add(IRtype);
     }
 

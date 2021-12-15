@@ -1,7 +1,9 @@
 import java.io.FileInputStream;
 import java.io.InputStream;
 import AST.*;
+import Backend.*;
 import Frontend.*;
+import LLVMIR.IRroot;
 import Parser.*;
 import Util.*;
 import Util.error.*;
@@ -31,6 +33,11 @@ public class Main {
             collector.Init();
             collector.visit(program);
             new SemanticChecker(gScope).visit(program);
+
+            IRroot irroot = new IRroot();
+            new IRCollector(irroot).visit(program);
+            new IRBuilder(gScope).visit(program);
+            new IRPrinter().toString();
         } catch (error er) {
             System.err.println(er.toString());
             throw new RuntimeException();

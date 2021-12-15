@@ -4,13 +4,12 @@ import LLVMIR.inst.*;
 import LLVMIR.entity.*;
 import java.util.ArrayList;
 
-public class Function extends IRType {
+public class functionType {
     public ArrayList<entity> parameterLists = new ArrayList<>();
     public IRType returnType;
     public String funcName;
-    public ArrayList<inst> instLists = new ArrayList<>();
 
-    public Function(IRType returnType , String funcName) {
+    public functionType(IRType returnType , String funcName) {
         this.returnType = returnType;
         this.funcName = funcName;
     }
@@ -22,10 +21,6 @@ public class Function extends IRType {
 
     public void addParameterInFunc(entity parameter){
         parameterLists.add(parameter);
-    }
-
-    public void addInstInFunc(inst funcInst){
-        instLists.add(funcInst);
     }
 
     @Override
