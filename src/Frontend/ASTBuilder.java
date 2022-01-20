@@ -304,8 +304,10 @@ public class ASTBuilder extends MxBaseVisitor<ASTNode>{
     @Override public ASTNode visitLiteral(MxParser.LiteralContext ctx) {
         if (ctx.IntConst() != null) return new intConstNode(Long.parseLong(ctx.IntConst().toString())
                 , new position(ctx));
-        else if (ctx.StringConst() != null) return new stringConstNode(ctx.StringConst().toString()
-                , new position(ctx));
+        else if (ctx.StringConst() != null) {
+            String stringConst = ctx.StringConst().toString().substring(1 , ctx.StringConst().toString().length() - 1);
+            return new stringConstNode(stringConst , new position(ctx));
+        }
         else if (ctx.Null() != null) return new nullConstNode(new position(ctx));
         else {
             boolean flag;

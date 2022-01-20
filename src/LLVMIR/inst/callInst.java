@@ -8,8 +8,7 @@ public class callInst extends inst {
     public register reg;
     public functionType func;
 
-    public callInst(basicBlock block_BelongTo , register reg , functionType func) {
-        super(block_BelongTo);
+    public callInst(register reg , functionType func) {
         this.reg = reg;
         this.func = func;
     }

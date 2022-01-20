@@ -1,9 +1,12 @@
 import java.io.FileInputStream;
 import java.io.InputStream;
+import java.io.PrintStream;
+
 import AST.*;
 import Backend.*;
 import Frontend.*;
-import LLVMIR.IRroot;
+import LLVMIR.*;
+import LLVMIR.entity.*;
 import Parser.*;
 import Util.*;
 import Util.error.*;
@@ -15,7 +18,9 @@ public class Main {
     public static void main(String[] args) throws Exception{
         String name = "test.mx";
         InputStream input = new FileInputStream(name);
+        PrintStream output = new PrintStream("test.ll");
 //        InputStream input = System.in;
+
         try {
             programNode program;
             globalScope gScope = new globalScope(null , "global");
@@ -35,9 +40,12 @@ public class Main {
             new SemanticChecker(gScope).visit(program);
 
             IRroot irroot = new IRroot();
-            new IRCollector(irroot).visit(program);
-            new IRBuilder(gScope).visit(program);
-            new IRPrinter().toString();
+            entityScope eScope = new entityScope(null);
+            IRCollector irCollector = new IRCollector(irroot);
+            irCollector.Init();
+            irCollector.visit(program);
+            new IRBuilder(irroot , eScope).visit(program);
+            new IRPrinter(output , irroot).printIR();
         } catch (error er) {
             System.err.println(er.toString());
             throw new RuntimeException();

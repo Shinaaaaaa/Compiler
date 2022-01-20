@@ -7,8 +7,17 @@ public class pointerType extends IRType {
         this.pointerType = pointerType;
     }
 
+    public boolean isString() {
+        return pointerType instanceof integerType && ((integerType) pointerType).size == 8;
+    }
+
     @Override
     public String toString() {
         return pointerType.toString() + "*";
+    }
+
+    @Override
+    public int getBytes() {
+        return 8;
     }
 }

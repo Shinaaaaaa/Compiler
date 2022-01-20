@@ -298,6 +298,7 @@ public class SemanticChecker implements ASTVisitor {
         it.funcName.accept(this);
         findFuncName = false;
         Type funcType = ExprType;
+
         if ((it.exprList == null && funcType.parameterList != null)
                 || (it.exprList != null && funcType.parameterList == null)) {
             throw new semanticError("Semantic Error: func parameter & expr not match" , it.pos);

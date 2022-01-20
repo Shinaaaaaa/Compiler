@@ -12,8 +12,7 @@ public class icmpInst extends inst {
     public icmpType opType;
     public entity lhs , rhs;
 
-    public icmpInst(basicBlock block_BelongTo , register reg , icmpType opType , entity lhs , entity rhs) {
-        super(block_BelongTo);
+    public icmpInst(register reg , icmpType opType , entity lhs , entity rhs) {
         this.reg = reg;
         this.opType = opType;
         this.lhs = lhs;

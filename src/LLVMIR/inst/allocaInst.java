@@ -1,18 +1,17 @@
 package LLVMIR.inst;
 
-import LLVMIR.*;
+import LLVMIR.IRType.*;
 import LLVMIR.entity.*;
 
 public class allocaInst extends inst {
     public register reg;
 
-    public allocaInst(basicBlock block_BelongTo , register reg) {
-        super(block_BelongTo);
+    public allocaInst(register reg) {
         this.reg = reg;
     }
 
     @Override
     public String toString() {
-        return reg.getEntityName() + " = alloca " + reg.getType() + ", align " + "need to add ???";
+        return reg.getEntityName() + " = alloca " + ((pointerType)reg.regType).pointerType.toString();
     }
 }

@@ -7,17 +7,26 @@ public class brInst extends terminalInst{
     public entity condition;
     public basicBlock trueBlock , falseBlock;
 
-    public brInst(basicBlock block_BelongTo , entity condition , basicBlock trueBlock , basicBlock falseBlock) {
-        super(block_BelongTo);
+    public brInst(entity condition) {
         this.condition = condition;
+    }
+
+    public brInst(basicBlock trueBlock) {
         this.trueBlock = trueBlock;
+    }
+
+    public void setTrueBlock(basicBlock trueBlock) {
+        this.trueBlock = trueBlock;
+    }
+
+    public void setFalseBlock(basicBlock falseBlock) {
         this.falseBlock = falseBlock;
     }
 
     @Override
     public String toString() {
-        if (condition == null) return "br label " + trueBlock.toString();
+        if (condition == null) return "br label " + trueBlock.getLabel();
         else return "br " + condition.getType() + " " + condition.getEntityName() +
-                ", label " + trueBlock.toString() + ", label " + falseBlock.toString();
+                ", label " + trueBlock.getLabel() + ", label " + falseBlock.getLabel();
     }
 }

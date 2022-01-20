@@ -11,8 +11,7 @@ public class binaryInst extends inst {
     public binaryType opType;
     public entity lhs , rhs;
 
-    public binaryInst(basicBlock block_BelongTo , register reg , binaryType opType , entity lhs , entity rhs) {
-        super(block_BelongTo);
+    public binaryInst(register reg , binaryType opType , entity lhs , entity rhs) {
         this.reg = reg;
         this.opType = opType;
         this.lhs = lhs;
@@ -25,6 +24,6 @@ public class binaryInst extends inst {
 
     @Override
     public String toString() {
-        return reg.getEntityName() + " = " + opType + " " + reg.getType() + " " + lhs.getEntityName() + " " + rhs.getEntityName();
+        return reg.getEntityName() + " = " + opType + " " + reg.getType() + " " + lhs.getEntityName() + ", " + rhs.getEntityName();
     }
 }

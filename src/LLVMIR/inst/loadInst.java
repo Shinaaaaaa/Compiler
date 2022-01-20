@@ -1,21 +1,19 @@
 package LLVMIR.inst;
 
-import LLVMIR.*;
 import LLVMIR.entity.*;
 
 public class loadInst extends inst{
-    public register reg;
-    public register allocaPos;
+    public entity from;
+    public register destPos;
 
-    public loadInst(basicBlock block_BelongTo , register reg , register allocaPos) {
-        super(block_BelongTo);
-        this.reg = reg;
-        this.allocaPos = allocaPos;
+    public loadInst(entity from , register destPos) {
+        this.from = from;
+        this.destPos = destPos;
     }
 
     @Override
     public String toString() {
-        return reg.getEntityName() + " = load " + reg.getType() + ", "
-                + allocaPos.getType() + " " + allocaPos.getEntityName() + ", align " + "need to add ???";
+        return destPos.getEntityName() + " = load " + destPos.getType() + ", "
+                + from.getType() + " " + from.getEntityName();
     }
 }

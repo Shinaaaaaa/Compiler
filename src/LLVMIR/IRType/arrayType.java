@@ -13,4 +13,9 @@ public class arrayType extends IRType {
     public String toString() {
         return "[" + length + " x " + indexType.toString() + "]";
     }
+
+    @Override
+    public int getBytes() {
+        return length * indexType.getBytes();
+    }
 }

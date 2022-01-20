@@ -6,13 +6,13 @@ import LLVMIR.entity.*;
 public class retInst extends terminalInst{
     public entity ret;
 
-    public retInst(basicBlock block_BelongTo , entity ret) {
-        super(block_BelongTo);
+    public retInst(entity ret) {
         this.ret = ret;
     }
 
     @Override
     public String toString() {
-        return "ret " + ret.getType() + " " + ret.getEntityName();
+        if (ret == null) return "ret void";
+        else return "ret " + ret.getType() + " " + ret.getEntityName();
     }
 }

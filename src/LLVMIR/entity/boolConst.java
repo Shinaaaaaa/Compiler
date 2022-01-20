@@ -3,26 +3,27 @@ package LLVMIR.entity;
 import LLVMIR.IRType.IRType;
 import LLVMIR.IRType.integerType;
 
-public class intConst extends entity{
-    public long value;
+public class boolConst extends entity{
+    public int value;
 
-    public intConst(boolean isLeftValue , long value) {
+    public boolConst(boolean isLeftValue , int value) {
         super(isLeftValue);
         this.value = value;
     }
 
     @Override
     public IRType getIRType() {
-        return new integerType(32);
+        return new integerType(1);
     }
 
     @Override
     public String getType() {
-        return "i32";
+        return "i1";
     }
 
     @Override
     public String getEntityName() {
-        return Long.toString(value);
+        if (value == 0) return "false";
+        else return "true";
     }
 }
