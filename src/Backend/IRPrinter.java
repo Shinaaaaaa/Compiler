@@ -6,7 +6,6 @@ import LLVMIR.inst.*;
 import LLVMIR.IRType.*;
 
 import java.io.PrintStream;
-import java.util.Objects;
 
 public class IRPrinter {
     public PrintStream pr;
@@ -25,14 +24,19 @@ public class IRPrinter {
             if (((pointerType) vd.getIRType()).pointerType instanceof integerType) {
                 printGlobalVar += ((pointerType) vd.getIRType()).pointerType.toString() + " 0";
                 pr.println(printGlobalVar);
-            } else if (vd.value instanceof stringConst) {
-                printGlobalVar += ((pointerType) vd.getIRType()).pointerType.toString() + " ";
-                printGlobalVar += "c\"" + ((stringConst) vd.value).value + "\\00\"";
-                pr.println(printGlobalVar);
             } else {
                 printGlobalVar += ((pointerType) vd.getIRType()).pointerType.toString() + " null";
                 pr.println(printGlobalVar);
             }
+        });
+        irroot.globalConst.values().forEach(vd -> {
+            String printGlobalVar;
+            assert vd.getIRType() instanceof pointerType;
+            printGlobalVar = vd.getEntityName() + " = constant ";
+            printGlobalVar += ((pointerType) vd.getIRType()).pointerType.toString() + " ";
+            printGlobalVar += "c\"" + ((stringConst) vd.value).value + "\\00\"";
+            pr.println(printGlobalVar);
+
         });
         pr.println();
 

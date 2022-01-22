@@ -8,6 +8,8 @@ import java.util.HashMap;
 
 public class IRroot {
     public HashMap<String , globalVariable> globalVariablesList = new HashMap<>();
+    public HashMap<String , globalVariable> globalConst = new HashMap<>();
+    public HashMap<String , String> stringConstForAsm = new HashMap<>();
     public HashMap<String , classType> classList = new HashMap<>();
     public HashMap<String , func> funcList = new HashMap<>();
     public HashMap<String , func> built_in_func = new HashMap<>();
@@ -16,6 +18,14 @@ public class IRroot {
 
     public void addGlobalVariable(String globalVariableName , globalVariable globalVar) {
         globalVariablesList.put(globalVariableName , globalVar);
+    }
+
+    public void addGlobalConst(String globalConstName , globalVariable Const) {
+        globalConst.put(globalConstName , Const);
+    }
+
+    public void addStringConst(String globalConstName , String Const) {
+        stringConstForAsm.put(globalConstName , Const);
     }
 
     public void addVariableTypeInClass(String className , String varName , IRType variableType) {

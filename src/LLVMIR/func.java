@@ -57,6 +57,10 @@ public class func {
         }
     }
 
+    public int getEntityNum() {
+        return entityNum;
+    }
+
     public register getNewRegisterInFunc(IRType regType) {
         register reg = new register(false , entityNum , regType);
         entityNum++;

@@ -988,7 +988,8 @@ public class IRBuilder implements ASTVisitor {
     public void visit(stringConstNode it) {
         stringConst str = new stringConst(false , it.value);
         globalVariable globalVar = new globalVariable(true , "_stringVariable" + Integer.toString(stringCount) , new pointerType(str.getIRType()) , str);
-        irroot.addGlobalVariable("_stringVariable" + Integer.toString(stringCount) , globalVar);
+        irroot.addGlobalConst("_stringVariable" + Integer.toString(stringCount) , globalVar);
+        irroot.addStringConst("_stringVariable" + Integer.toString(stringCount) , "\"" + it.value + "\"");
         stringCount++;
         register stringBitcastReg = tmpFuncType.getNewRegisterInFunc(new pointerType(new integerType(8)));
         tmpFuncType.addInstInLastBlock(new bitcastInst(globalVar , stringBitcastReg));

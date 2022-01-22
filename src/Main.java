@@ -3,6 +3,7 @@ import java.io.InputStream;
 import java.io.PrintStream;
 
 import AST.*;
+import Assembly.AsmModule;
 import Backend.*;
 import Frontend.*;
 import LLVMIR.*;
@@ -16,10 +17,11 @@ import org.antlr.v4.runtime.tree.ParseTree;
 
 public class Main {
     public static void main(String[] args) throws Exception{
-        String name = "test.mx";
-        InputStream input = new FileInputStream(name);
-        PrintStream output = new PrintStream("test.ll");
-//        InputStream input = System.in;
+//        String name = "test.mx";
+//        InputStream input = new FileInputStream(name);
+//        PrintStream ll_output = new PrintStream("test.ll");
+        InputStream input = System.in;
+        PrintStream asm_output = new PrintStream("output.s");
 
         try {
             programNode program;
@@ -45,7 +47,11 @@ public class Main {
             irCollector.Init();
             irCollector.visit(program);
             new IRBuilder(irroot , eScope).visit(program);
-            new IRPrinter(output , irroot).printIR();
+//            new IRPrinter(ll_output , irroot).printIR();
+
+            AsmModule asmRoot = new AsmModule();
+            new AsmBuilder(irroot , asmRoot).buildAsm();
+            new AsmPrinter(asm_output , asmRoot).printAsm();
         } catch (error er) {
             System.err.println(er.toString());
             throw new RuntimeException();
