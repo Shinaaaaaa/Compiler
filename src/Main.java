@@ -1,6 +1,8 @@
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.io.PrintStream;
+import java.util.Objects;
 
 import AST.*;
 import Assembly.AsmModule;
@@ -19,9 +21,22 @@ public class Main {
     public static void main(String[] args) throws Exception{
 //        String name = "test.mx";
 //        InputStream input = new FileInputStream(name);
-//        PrintStream ll_output = new PrintStream("test.ll");
+
         InputStream input = System.in;
-        PrintStream asm_output = new PrintStream("output.s");
+        PrintStream asm_output = System.out;
+
+        boolean SemanticSwitch = false;
+        boolean AssemblySwitch = false;
+        for (int i = 0; i < args.length; ++i){
+            if (args[i].charAt(0) == '-'){
+                if (Objects.equals(args[i] , "-fsyntax-only"))
+                    SemanticSwitch = true;
+                else if (Objects.equals(args[i], "-S"))
+                    AssemblySwitch = true;
+                else if (Objects.equals(args[i], "-o"))
+                    asm_output = new PrintStream(new FileOutputStream(args[i + 1]));
+            }
+        }
 
         try {
             programNode program;
@@ -41,17 +56,20 @@ public class Main {
             collector.visit(program);
             new SemanticChecker(gScope).visit(program);
 
-            IRroot irroot = new IRroot();
-            entityScope eScope = new entityScope(null);
-            IRCollector irCollector = new IRCollector(irroot);
-            irCollector.Init();
-            irCollector.visit(program);
-            new IRBuilder(irroot , eScope).visit(program);
-//            new IRPrinter(ll_output , irroot).printIR();
+            if (!SemanticSwitch) {
+                IRroot irroot = new IRroot();
+                entityScope eScope = new entityScope(null);
+                IRCollector irCollector = new IRCollector(irroot);
+                irCollector.Init();
+                irCollector.visit(program);
+                new IRBuilder(irroot , eScope).visit(program);
+//              PrintStream ll_output = new PrintStream("test.ll");
+//              new IRPrinter(ll_output , irroot).printIR();
 
-            AsmModule asmRoot = new AsmModule();
-            new AsmBuilder(irroot , asmRoot).buildAsm();
-            new AsmPrinter(asm_output , asmRoot).printAsm();
+                AsmModule asmRoot = new AsmModule();
+                new AsmBuilder(irroot , asmRoot).buildAsm();
+                new AsmPrinter(asm_output , asmRoot).printAsm();
+            }
         } catch (error er) {
             System.err.println(er.toString());
             throw new RuntimeException();
