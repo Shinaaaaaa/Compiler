@@ -23,7 +23,7 @@ public class Main {
 //        InputStream input = new FileInputStream(name);
 
         InputStream input = System.in;
-        PrintStream asm_output = System.out;
+        PrintStream asm_output = new PrintStream("output.s");
 
         boolean SemanticSwitch = false;
         boolean AssemblySwitch = false;
@@ -34,7 +34,7 @@ public class Main {
                 else if (Objects.equals(args[i], "-S"))
                     AssemblySwitch = true;
                 else if (Objects.equals(args[i], "-o"))
-                    asm_output = new PrintStream(new FileOutputStream(args[i + 1]));
+                    asm_output = new PrintStream(args[i + 1]);
             }
         }
 
@@ -63,8 +63,8 @@ public class Main {
                 irCollector.Init();
                 irCollector.visit(program);
                 new IRBuilder(irroot , eScope).visit(program);
-//              PrintStream ll_output = new PrintStream("test.ll");
-//              new IRPrinter(ll_output , irroot).printIR();
+                PrintStream ll_output = new PrintStream("test.ll");
+                new IRPrinter(ll_output , irroot).printIR();
 
                 AsmModule asmRoot = new AsmModule();
                 new AsmBuilder(irroot , asmRoot).buildAsm();
