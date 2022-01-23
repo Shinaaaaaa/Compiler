@@ -40,8 +40,7 @@ public class IRBuilder implements ASTVisitor {
         int baseByte = 8;
         register mallocReg;
         if (((pointerType) baseType).pointerType instanceof integerType) {
-            if (((integerType) ((pointerType) baseType).pointerType).size == 32) baseByte = 4;
-            else baseByte = 1;
+            baseByte = 4;
         }
         if (!(sizeList.get(depth) instanceof intConst)) {
             register mulReg = tmpFuncType.getNewRegisterInFunc(new integerType(32));
